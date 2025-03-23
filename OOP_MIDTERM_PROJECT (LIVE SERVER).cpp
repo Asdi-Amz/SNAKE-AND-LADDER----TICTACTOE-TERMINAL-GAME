@@ -29,7 +29,7 @@ void snake_and_ladder_game_menu();
 
 int main(){
     SetConsoleOutputCP(65001);
-    string game_options[] = {"Tictactoe", "Snake and Ladder"};
+    string game_options[] = {" Tictactoe ❌🔵", " Snake and Ladder 🪜🐍"};
 
     while (true)
     {
@@ -143,7 +143,7 @@ void tictactoe_game_menu(){
 
     clear_screen();
     cout<< "*****************************************\n" 
-        << "        WELCOME TO TICTACTOE GAME\n"
+        << "    👋 WELCOME TO ❌TICTACTOE GAME🔵\n"
         << "*****************************************\n";
 
     cout << "Press Enter to Continue...";
@@ -151,8 +151,8 @@ void tictactoe_game_menu(){
 
     clear_screen();
 
-    string main_menu_options[] = {" Play Game", " How to Play", " Developers", " Exit"};
-    menu_decision = display_options(main_menu_options, "TICTACTOE SHITTY ASS GAME", 4);
+    string main_menu_options[] = {" Play Game 🕹️", " How to Play ❔", " Developers ⌨️", " Exit ➡️"};
+    menu_decision = display_options(main_menu_options, "❌ TICTACTOE GAME 🔵", 4);
 
     switch (menu_decision)
     {
@@ -380,7 +380,7 @@ void snake_and_ladder_game_menu(){
 
     clear_screen();
     cout<< "*******************************************\n" 
-        << "        WELCOME TO SNAKE AND LADDER\n"
+        << "   👋 WELCOME TO SNAKE 🐍 AND LADDER 🪜\n"
         << "*******************************************\n";
 
     cout << "Press Enter to Continue...";
@@ -389,8 +389,8 @@ void snake_and_ladder_game_menu(){
     clear_screen();
 
     do{
-        string main_menu_options[] = {" Play Game", " How to Play", " Developers", " Exit"};
-        menu_decision = display_options(main_menu_options, "SNAKE AND LADDER BITCHES", 4);
+        string main_menu_options[] = {" Play Game 🕹️", " How to Play ❔", " Developers ⌨️", " Exit ➡️"};
+        menu_decision = display_options(main_menu_options, "🐍 SNAKE AND LADDER 🪜", 4);
 
         switch (menu_decision)
         {
