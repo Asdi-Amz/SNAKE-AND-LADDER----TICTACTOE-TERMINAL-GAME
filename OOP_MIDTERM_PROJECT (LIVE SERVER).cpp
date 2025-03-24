@@ -16,15 +16,21 @@ void cursor_hide();
 void terminal_pause(string prompt);
 int mismatch_data();
 
+
 void arrow_options_animation(string options[], int number_of_options, int selected);
 int display_options(string options[], string title, int number_of_options);
+
 
 void tictactoe_game_menu();
 void tictactoe_game();
 void print_tictactoe_board_score(string board_mark[], int player1_score, int player2_score, string player1_name, string player2_name);
 void tictactoe_how_to_play();
+void tictactoe_developer_section();
+
 
 void snake_and_ladder_game_menu();
+void snake_and_ladder_game();
+
 
 
 int main(){
@@ -161,12 +167,17 @@ void tictactoe_game_menu(){
         break;
     
     case 1:
+        tictactoe_how_to_play();
         break;
     
     case 2:
+        tictactoe_developer_section();
         break;
     
     case 3:
+        clear_screen();
+        cout << "\n\n\tTHANK YOU FOR PLAYING OUR GAME 🙏💖" << endl;
+        terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...");
         break;
     }
 
@@ -322,7 +333,7 @@ void tictactoe_game(){
 
 void print_tictactoe_board_score(string board_mark[], int player1_score, int player2_score, string player1_name, string player2_name){
     cout<<"   " << board_mark[0] << " | " << board_mark[1] << " | " << board_mark[2] <<    "\t\t\t===========================" << endl
-            <<"  ----+----+----"<<                                                         "\t\t        SCORE BOARD"         << endl
+            <<"  ----+----+----"<<                                                         "\t\t      🔢 SCORE BOARD 🔢"         << endl
             <<"   " << board_mark[3] << " | " << board_mark[4] << " | " << board_mark[5] <<"\t\t\t===========================" <<endl
             <<"  ----+----+----"<<                                                         "\t\t" << player1_name << ": " << player1_score << endl  
             <<"   " << board_mark[6] << " | " << board_mark[7] << " | " << board_mark[8] <<"\t\t\t" << player2_name << ": " << player2_score <<endl;
@@ -374,6 +385,9 @@ void tictactoe_how_to_play(){
     
 }
 
+void tictactoe_developer_section(){
+
+}
 
 void snake_and_ladder_game_menu(){
     int menu_decision = 0;
@@ -395,9 +409,9 @@ void snake_and_ladder_game_menu(){
         switch (menu_decision)
         {
         case 0:
-             
+            snake_and_ladder_game();
             break;
-        
+    
         case 1:
             
             break;
@@ -407,11 +421,17 @@ void snake_and_ladder_game_menu(){
             break;
         
         case 3:
-
+            clear_screen();
+            cout << "\n\n\tTHANK YOU FOR PLAYING OUR GAME 🙏💖" << endl;
+            terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...");
             break;
         }
 
     }while(menu_decision != 3);
 
     
+}
+
+void snake_and_ladder_game(){
+
 }
