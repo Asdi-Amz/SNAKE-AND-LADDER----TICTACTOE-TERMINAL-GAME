@@ -30,6 +30,10 @@ void tictactoe_developer_section();
 
 void snake_and_ladder_game_menu();
 void snake_and_ladder_game();
+void print_snake_and_ladder_board();
+void snake_and_ladder_how_to_play();
+void snake_and_ladder_developer_section();
+
 
 
 
@@ -143,6 +147,9 @@ int display_options(string options[], string title, int number_of_options){
 
     return selected;
 }
+
+
+
 
 void tictactoe_game_menu(){
     int menu_decision = 0;
@@ -389,6 +396,9 @@ void tictactoe_developer_section(){
 
 }
 
+
+
+
 void snake_and_ladder_game_menu(){
     int menu_decision = 0;
 
@@ -413,11 +423,11 @@ void snake_and_ladder_game_menu(){
             break;
     
         case 1:
-            
+            snake_and_ladder_how_to_play();
             break;
         
         case 2:
-            
+            snake_and_ladder_developer_section();
             break;
         
         case 3:
@@ -433,5 +443,17 @@ void snake_and_ladder_game_menu(){
 }
 
 void snake_and_ladder_game(){
+
+}
+
+void print_snake_and_ladder_board(){
+    
+}
+
+void snake_and_ladder_how_to_play(){
+
+}
+
+void snake_and_ladder_developer_section(){
 
 }
