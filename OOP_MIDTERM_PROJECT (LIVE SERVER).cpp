@@ -30,7 +30,6 @@ void clear_screen();
 void cursor_hide();
 void cursor_show();
 void terminal_pause(const string &prompt);
-int mismatch_data();
 void delay(int milliseconds);
 int getch();
 
@@ -146,6 +145,8 @@ void cursor_show()
   cout << "\033[?25h";
 #endif
 }
+
+
 
 void terminal_pause(const string &prompt)
 {
@@ -502,6 +503,22 @@ void tictactoe_game(bool vsAI, bool hardMode)
     }
 
     clear_screen();
+    print_tictactoe_board(board_mark, player1_score, player2_score,
+    player1_name, player2_name);
+    char exit_decision, exit_decision_confirmation;
+
+    cout << "Press E [e] if you want end the game and go back to game menu if not just press any other key...";
+    exit_decision = _getch();
+
+    if(exit_decision == 'e'){
+      clear_screen();
+      cout << "Are you sure you want to EXIT? Press Y [y] if yes and if no press any other key";
+      exit_decision_confirmation = _getch();
+
+      if(exit_decision_confirmation == 'y'){
+        tictactoe_game_menu();
+      }
+    }
   }
 
   // Game over - determine winner
