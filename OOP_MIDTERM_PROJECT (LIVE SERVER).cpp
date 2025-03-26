@@ -518,6 +518,7 @@ void tictactoe_game(bool vsAI, bool hardMode)
 
       if(exit_decision_confirmation == 'y'){
         tictactoe_game_menu();
+        return;
       }
     }
   }
@@ -810,6 +811,8 @@ void snake_and_ladder_game() {
 
   vector<string> number_of_player_options = {"1 player","2 players", "3 players", "4 players", "5 players", "6 players"};
 
+  string player_names[] = {"PLAYER 1", "Pikselito (COMP)", "Bitoy Byte (COMP)", "Ctrl-Z Santos (COMP)", "AI Delas Alas (COMP)", "Giga Bites (COMP)"};
+
   int number_of_players = display_options(number_of_player_options, "DECIDE THE NUMBER OF REAL PLAYERS TO JOIN THE GAME") + 1;
   int number_of_ai_players = 0;
   
@@ -850,6 +853,16 @@ void snake_and_ladder_game() {
     case 6:
       number_of_ai_players = 0;
   }
+
+  cout<<"********************************************************\n" 
+      <<"     BEFORE PLAYING LETS REGISTER PLAYER NAME FIRST\n"
+      <<"********************************************************\n\n";
+       
+  for(int i = 0; i < number_of_players; i++){
+    cout << "Player " << i + 1<< " Name: ";
+    getline(cin, player_names[i]);
+  }
+
 
 
   print_snake_and_ladder_board(easy_board_tile);
