@@ -53,7 +53,8 @@ int find_best_move(string board[], bool hardMode);
 // Snake and Ladder functions (stubs)
 void snake_and_ladder_game_menu();
 void snake_and_ladder_game();
-void print_snake_and_ladder_board();
+void print_table_boarder();
+void print_snake_and_ladder_board(string board_tile[]);
 void snake_and_ladder_how_to_play();
 void snake_and_ladder_developer_section();
 
@@ -793,7 +794,55 @@ void snake_and_ladder_game_menu()
   }
 }
 
-void snake_and_ladder_game() {}
-void print_snake_and_ladder_board() {}
+void snake_and_ladder_game() {
+  string easy_board_tile [101] = {"00",
+        " 01", " 02", " 03", " 04", " 05", " 06", " 07"," 🪜", " 09", " 10",
+        " 11", " 12", " 13", " 14", " 15", " 16", " 17"," 🪜", " 19", " 20",
+        " 21", " 22", " 23", " 🐍", " 25", " 26", " 27", " 28", " 29", " 30",
+        " 31", " 32", " 33", " 34", " 35", " 36", " 37", " 38", " 39", " 40",
+        " 41", " 42", " 43", " 44", " 🐍", " 46", " 47", " 48", " 49", " 50",
+        " 51", " 52", " 53", " 🪜", " 55", " 56", " 57", " 58", " 59", " 60",
+        " 🪜", " 62", " 63", " 64", " 65", " 66", " 67", " 68", " 69", " 70",
+        " 71", " 72", " 73", " 74", " 75", " 🐍", " 77", " 78", " 79", " 80",
+        " 81", " 🪜", " 83", " 84", " 85", " 86", " 87", " 88", " 89",  " 🐍",
+        " 91", " 92", " 93", " 94", " 95", " 96", " 97", " 98", " 99", "100"};
+  
+
+    print_snake_and_ladder_board(easy_board_tile);
+  
+
+}
+void print_table_boarder(){
+  cout << "+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
+}
+
+void print_snake_and_ladder_board(string board_tile[]) {
+  clear_screen();
+  int tile_end = 100;
+
+  for(int i = 1; i <= 21  ; i++){
+    if(i % 2 == 1){
+        print_table_boarder();
+    }else if(i % 2 == 0 && i % 4 != 0){
+        for(int j = tile_end; j > (tile_end - 10); j--){
+            cout << "| " << board_tile[j] << " ";
+        }
+        cout << "|\n";
+        tile_end -= 10;
+
+    }else{
+        for(int j = (tile_end - 9); j <= tile_end; j++){
+            cout << "| " << board_tile[j] << " ";
+        }
+        cout << "|\n";
+        tile_end -= 10;
+
+    }
+}
+
+cin.clear();
+cin.get();
+  
+}
 void snake_and_ladder_how_to_play() {}
 void snake_and_ladder_developer_section() {}
