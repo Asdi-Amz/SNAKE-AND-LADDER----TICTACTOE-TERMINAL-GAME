@@ -808,7 +808,51 @@ void snake_and_ladder_game() {
         " 91", " 92", " 93", " 94", " 95", " 96", " 97", " 98", " 99", "100"};
   
 
-    print_snake_and_ladder_board(easy_board_tile);
+  vector<string> number_of_player_options = {"1 player","2 players", "3 players", "4 players", "5 players", "6 players"};
+
+  int number_of_players = display_options(number_of_player_options, "DECIDE THE NUMBER OF REAL PLAYERS TO JOIN THE GAME") + 1;
+  int number_of_ai_players = 0;
+  
+  switch(number_of_players){
+    case 1:
+      {
+        vector<string> number_of_ai_player_options = {"1 AI", "2 AI", "3 AI", "4 AI", "5 AI"};
+        number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME") + 1;
+        break;
+      }
+
+    case 2:
+      {
+        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI", "2 AI", "3 AI", "4 AI"};
+        number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME");
+        break;
+      }
+    
+    case 3:
+      {
+        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI", "2 AI", "3 AI"};
+        number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME");
+        break;
+      }
+    
+    case 4:
+      {
+        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI", "2 AI", "3 AI"};
+        number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME");
+        break;
+      }
+    case 5:
+      {
+        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI", "2 AI", "3 AI"};
+        number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME");
+        break;
+      }
+    case 6:
+      number_of_ai_players = 0;
+  }
+
+
+  print_snake_and_ladder_board(easy_board_tile);
   
 
 }
@@ -817,6 +861,9 @@ void print_table_boarder(){
 }
 
 void print_snake_and_ladder_board(string board_tile[]) {
+  clear_screen();
+
+
   clear_screen();
   cout<< "                 ******************************\n" 
       << "                      🐍SNAKE AND LADDER🪜\n"
