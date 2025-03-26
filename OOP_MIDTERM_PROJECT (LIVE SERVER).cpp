@@ -818,9 +818,9 @@ void print_table_boarder(){
 
 void print_snake_and_ladder_board(string board_tile[]) {
   clear_screen();
-  cout<< "                 **************************\n" 
-      << "                      SNAKE AND LADDER\n"
-      << "                 **************************\n";
+  cout<< "                 ******************************\n" 
+      << "                      🐍SNAKE AND LADDER🪜\n"
+      << "                 ******************************\n";
 
 
   int tile_end = 100;
