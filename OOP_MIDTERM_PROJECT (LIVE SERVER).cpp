@@ -54,7 +54,7 @@ int find_best_move(string board[], bool hardMode);
 void snake_and_ladder_game_menu();
 void snake_and_ladder_game();
 void print_table_boarder();
-void print_snake_and_ladder_board(string board_tile[]);
+void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[]);
 void snake_and_ladder_how_to_play();
 void snake_and_ladder_developer_section();
 
@@ -796,24 +796,55 @@ void snake_and_ladder_game_menu()
 }
 
 void snake_and_ladder_game() {
-  string easy_board_tile [101] = {"00",
-        " 01", " 02", " 03", " 04", " 05", " 06", " 07"," 🪜", " 09", " 10",
-        " 11", " 12", " 13", " 14", " 15", " 16", " 17"," 🪜", " 19", " 20",
-        " 21", " 22", " 23", " 🐍", " 25", " 26", " 27", " 28", " 29", " 30",
-        " 31", " 32", " 33", " 34", " 35", " 36", " 37", " 38", " 39", " 40",
-        " 41", " 42", " 43", " 44", " 🐍", " 46", " 47", " 48", " 49", " 50",
-        " 51", " 52", " 53", " 🪜", " 55", " 56", " 57", " 58", " 59", " 60",
-        " 🪜", " 62", " 63", " 64", " 65", " 66", " 67", " 68", " 69", " 70",
-        " 71", " 72", " 73", " 74", " 75", " 🐍", " 77", " 78", " 79", " 80",
-        " 81", " 🪜", " 83", " 84", " 85", " 86", " 87", " 88", " 89",  " 🐍",
-        " 91", " 92", " 93", " 94", " 95", " 96", " 97", " 98", " 99", "100"};
   
+  string board_tile[3][101] = {{"00",
+    " 01", " 02", " 03", " 04", " 05", " 06", " 07"," 09", " 09", " 10",
+    " 11", " 12", " 13", " 14", " 15", " 16", " 17"," 🪜", " 19", " 20",
+    " 21", " 22", " 23", " 🐍", " 25", " 26", " 27", " 28", " 29", " 30",
+    " 31", " 32", " 33", " 34", " 35", " 36", " 37", " 38", " 39", " 40",
+    " 41", " 42", " 43", " 44", " 🐍", " 46", " 47", " 48", " 49", " 50",
+    " 51", " 52", " 53", " 🪜", " 55", " 56", " 57", " 58", " 59", " 60",
+    " 🪜", " 62", " 63", " 🪜", " 65", " 66", " 67", " 68", " 69", " 70",
+    " 71", " 72", " 73", " 74", " 75", " 🐍", " 77", " 78", " 79", " 80",
+    " 81", " 🪜", " 83", " 84", " 85", " 86", " 87", " 88", " 89",  " 🐍",
+    " 91", " 92", " 93", " 94", " 95", " 96", " 97", " 98", " 99", "100"}, 
+    
+    {"00",
+      " 01", " 02", " 03", " 04", " 05", " 06", " 07"," 🪜", " 09", " 10",
+      " 🐍", " 🪜", " 13", " 14", " 15", " 16", " 17"," 🪜", " 19", " 20",
+      " 21", " 🪜", " 23", " 🐍", " 25", " 26", " 27", " 28", " 29", " 30",
+      " 31", " 32", " 33", " 34", " 35", " 36", " 37", " 38", " 39", " 40",
+      " 41", " 42", " 43", " 44", " 🐍", " 46", " 47", " 🪜", " 49", " 🐍",
+      " 51", " 52", " 53", " 🪜", " 55", " 56", " 57", " 🪜", " 59", " 60",
+      " 🪜", " 62", " 63", " 🪜", " 65", " 66", " 67", " 68", " 69", " 70",
+      " 71", " 72", " 73", " 74", " 75", " 🐍", " 77", " 78", " 79", " 80",
+      " 🪜", " 82", " 83", " 84", " 85", " 86", " 87", " 88", " 89",  " 🐍",
+      " 91", " 92", " 🐍", " 94", " 95", " 🐍", " 97", " 98", " 🐍", "100"},
+    
+    {"00",
+    " 01", " 02", " 03", " 04", " 05", " 06", " 07"," 🪜", " 09", " 10",
+    " 🐍", " 🪜", " 13", " 🐍", " 15", " 16", " 17"," 🪜", " 19", " 20",
+    " 21", " 🪜", " 23", " 🐍", " 25", " 26", " 27", " 28", " 29", " 30",
+    " 31", " 32", " 33", " 34", " 🐍", " 36", " 37", " 38", " 39", " 40",
+    " 41", " 42", " 43", " 44", " 🐍", " 46", " 47", " 🪜", " 49", " 🐍",
+    " 51", " 52", " 53", " 🪜", " 55", " 56", " 57", " 🪜", " 59", " 60",
+    " 🐍", " 62", " 🐍", " 🪜", " 65", " 66", " 67", " 68", " 69", " 70",
+    " 71", " 72", " 🐍", " 74", " 75", " 🐍", " 77", " 🐍", " 79", " 80",
+    " 🪜", " 🐍", " 🐍", " 🐍", " 85", " 🐍", " 87", " 🐍", " 🐍",  " 🐍",
+    " 91", " 92", " 🐍", " 🐍", " 95", " 🐍", " 🐍", " 98", " 🐍", "100"}};
+
+  
+  vector<string> difficulty_options = {"EASY😊", "MEDIUM😕", "HARD🤢"};
+
+  int choosen_board_difficulty = display_options(difficulty_options, "DECIDE THE DIFFICULTY OF THE BOARD💪");
 
   vector<string> number_of_player_options = {"1 player","2 players", "3 players", "4 players", "5 players", "6 players"};
 
   string player_names[] = {"PLAYER 1", "Pikselito (COMP)", "Bitoy Byte (COMP)", "Ctrl-Z Santos (COMP)", "AI Delas Alas (COMP)", "Giga Bites (COMP)"};
+  string player_avatars[] = {"👺", "👻", "😈", "👽", "🤖", "😼"};
+  char player_key_roll[] = {'q', 'p', 'z', 'm', 'f', 'k'};
 
-  int number_of_players = display_options(number_of_player_options, "DECIDE THE NUMBER OF REAL PLAYERS TO JOIN THE GAME") + 1;
+  int number_of_players = display_options(number_of_player_options, "DECIDE THE NUMBER OF REAL PLAYERS TO JOIN THE GAME🤼") + 1;
   int number_of_ai_players = 0;
   
   switch(number_of_players){
@@ -854,6 +885,7 @@ void snake_and_ladder_game() {
       number_of_ai_players = 0;
   }
 
+  clear_screen();
   cout<<"********************************************************\n" 
       <<"     BEFORE PLAYING LETS REGISTER PLAYER NAME FIRST\n"
       <<"********************************************************\n\n";
@@ -863,9 +895,46 @@ void snake_and_ladder_game() {
     getline(cin, player_names[i]);
   }
 
+  clear_screen();
+  cout << "PLAYER NAMES AND THEIR DESIGNATED AVATARS IN THE BOARD:\n"
+       << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n";
+
+  for(int i = 0; i < (number_of_players + number_of_ai_players); i++){
+    cout << "PLAYER " << i+1 << ": " << player_names[i] << " " << player_avatars[i] << endl;
+  }
+  cout << "\n\n";
+  cout << player_names[0] << player_avatars[0] << " will take the first roll 🎲 ,  ";
+  terminal_pause("Press ENTER and the game will begins...");
+
+  int player_tile_placement[6] = {0};
+  bool player_wins = false;
+  char player_press;
+  
+  
+  do{
+
+    for(int i = 0; i < number_of_players; i++){
+      print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement);
+      
+      do{
+        cout << "\n\n";
+        cout << player_avatars[i] << " " << player_names[i] << "'s Turn Press [" << player_key_roll[i] << "] to roll the dice...\n";  
+        player_press = _getch();
+
+        if(player_press != player_key_roll[i]){
+          cout << "INVALID KEY! PRESS THE CORRECT KEY PLEASE...\n";
+        }
+      }while(player_press != player_key_roll[i]);
+      
+    }
+    
+    
+    
+
+  }while(!player_wins);
+  
 
 
-  print_snake_and_ladder_board(easy_board_tile);
   
 
 }
@@ -873,14 +942,28 @@ void print_table_boarder(){
   cout << "+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
 }
 
-void print_snake_and_ladder_board(string board_tile[]) {
+void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[]) {
   clear_screen();
 
+  switch(difficulty){
+    case 0:
+      cout<< "            **************************************\n" 
+          << "                 🐍SNAKE AND LADDER🪜 (EASY)\n"
+          << "            **************************************\n";
+          break;
 
-  clear_screen();
-  cout<< "                 ******************************\n" 
-      << "                      🐍SNAKE AND LADDER🪜\n"
-      << "                 ******************************\n";
+    case 1:
+      cout<< "          ****************************************\n" 
+          << "               🐍SNAKE AND LADDER🪜 (MEDIUM)\n"
+          << "          ****************************************\n";
+          break;
+
+    case 2:
+      cout<< "            **************************************\n" 
+          << "                 🐍SNAKE AND LADDER🪜 (HARD)\n"
+          << "            **************************************\n";
+  }
+
 
 
   int tile_end = 100;
@@ -904,10 +987,8 @@ void print_snake_and_ladder_board(string board_tile[]) {
 
     }
 }
-
-cin.clear();
-cin.get();
   
 }
+
 void snake_and_ladder_how_to_play() {}
 void snake_and_ladder_developer_section() {}
