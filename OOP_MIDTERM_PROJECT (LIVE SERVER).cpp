@@ -55,6 +55,8 @@ void snake_and_ladder_game_menu();
 void snake_and_ladder_game();
 void print_table_boarder();
 void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[]);
+int dice_roller();
+void display_dice_face(int dice_number);
 void snake_and_ladder_how_to_play();
 void snake_and_ladder_developer_section();
 
@@ -923,9 +925,11 @@ void snake_and_ladder_game() {
 
         if(player_press != player_key_roll[i]){
           cout << "INVALID KEY! PRESS THE CORRECT KEY PLEASE...\n";
+
         }
       }while(player_press != player_key_roll[i]);
-      
+      player_tile_placement[i] = dice_roller();
+
     }
     
     
@@ -941,6 +945,8 @@ void snake_and_ladder_game() {
 void print_table_boarder(){
   cout << "+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
 }
+
+
 
 void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[]) {
   clear_screen();
@@ -988,6 +994,74 @@ void print_snake_and_ladder_board(string board_tile[], int difficulty, string pl
     }
 }
   
+}
+
+int dice_roller() {
+  int dice_number;
+
+  for(int i = 0; i < 10; i++){
+    clear_screen();
+    cout << "Rolling the dice...\n";
+    dice_number = (rand() % 6) + 1;
+    display_dice_face(dice_number);
+    this_thread::sleep_for(chrono::milliseconds(200));
+  }
+
+  for(int i = 0; i < 3; i++){
+    clear_screen();
+    cout << "Rolling the dice...\n";
+    dice_number = (rand() % 6) + 1;
+    display_dice_face(dice_number);
+    this_thread::sleep_for(chrono::milliseconds(500));
+  }
+  
+  clear_screen();
+  cout << "Final Dice Roll: \n";
+  display_dice_face(dice_number);
+  terminal_pause("\nPress ENTER to continue...");
+  return dice_number;
+}
+void display_dice_face(int dice_number) {
+    string dice_faces[] = {
+        "\t\t ----- \n"
+        "\t\t|     |\n"
+        "\t\t|  •  |\n"
+        "\t\t|     |\n"
+        "\t\t -----", 
+    
+        "\t\t ----- \n"
+        "\t\t| •   |\n"
+        "\t\t|     |\n"
+        "\t\t|   • |\n"
+        "\t\t -----", 
+    
+        "\t\t ----- \n"
+        "\t\t| •   |\n"
+        "\t\t|  •  |\n"
+        "\t\t|   • |\n"
+        "\t\t -----", 
+    
+        "\t\t ----- \n"
+        "\t\t| • • |\n"
+        "\t\t|     |\n"
+        "\t\t| • • |\n"
+        "\t\t -----", 
+    
+        "\t\t ----- \n"
+        "\t\t| • • |\n"
+        "\t\t|  •  |\n"
+        "\t\t| • • |\n"
+        "\t\t -----", 
+    
+        "\t\t ----- \n"
+        "\t\t| • • |\n"
+        "\t\t| • • |\n"
+        "\t\t| • • |\n"
+        "\t\t -----"
+
+    };
+    
+    cout << dice_faces[dice_number - 1];
 }
 
 void snake_and_ladder_how_to_play() {}
