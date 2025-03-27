@@ -843,7 +843,7 @@ void snake_and_ladder_game() {
   vector<string> number_of_player_options = {"1 player","2 players", "3 players", "4 players", "5 players", "6 players"};
 
   string player_names[] = {"PLAYER 1", "Pikselito (COMP)", "Bitoy Byte (COMP)", "Ctrl-Z Santos (COMP)", "AI Delas Alas (COMP)", "Giga Bites (COMP)"};
-  string player_avatars[] = {"👺", "👻", "😈", "👽", "🤖", "😼"};
+  string player_avatars[] = {">👺", ">👻", ">😈", ">👽", ">🤖", ">😼"};
   char player_key_roll[] = {'q', 'p', 'z', 'm', 'f', 'k'};
 
   int number_of_players = display_options(number_of_player_options, "DECIDE THE NUMBER OF REAL PLAYERS TO JOIN THE GAME🤼") + 1;
@@ -928,7 +928,7 @@ void snake_and_ladder_game() {
 
         }
       }while(player_press != player_key_roll[i]);
-      player_tile_placement[i] = dice_roller();
+      player_tile_placement[i] += dice_roller();
 
     }
     
@@ -950,6 +950,18 @@ void print_table_boarder(){
 
 void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[]) {
   clear_screen();
+
+  string avatar_board_tile[101];
+
+  for(int i = 0; i < 101; i++){
+    avatar_board_tile[i] = board_tile[i];
+  }
+
+  for(int i = 0; i < 6; i++){
+    avatar_board_tile[player_tile_placement[i]] = player_avatars[i];
+  }
+
+
 
   switch(difficulty){
     case 0:
@@ -979,19 +991,20 @@ void print_snake_and_ladder_board(string board_tile[], int difficulty, string pl
         print_table_boarder();
     }else if(i % 2 == 0 && i % 4 != 0){
         for(int j = tile_end; j > (tile_end - 10); j--){
-            cout << "| " << board_tile[j] << " ";
+            cout << "| " << avatar_board_tile[j] << " ";
         }
         cout << "|\n";
         tile_end -= 10;
 
     }else{
         for(int j = (tile_end - 9); j <= tile_end; j++){
-            cout << "| " << board_tile[j] << " ";
+            cout << "| " << avatar_board_tile[j] << " ";
         }
         cout << "|\n";
         tile_end -= 10;
 
     }
+
 }
   
 }
