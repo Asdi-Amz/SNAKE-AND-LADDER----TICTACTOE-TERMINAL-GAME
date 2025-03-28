@@ -874,13 +874,13 @@ void snake_and_ladder_game() {
     
     case 4:
       {
-        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI", "2 AI", "3 AI"};
+        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI", "2 AI"};
         number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME");
         break;
       }
     case 5:
       {
-        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI", "2 AI", "3 AI"};
+        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI"};
         number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME");
         break;
       }
@@ -910,6 +910,7 @@ void snake_and_ladder_game() {
   terminal_pause("Press ENTER and the game will begins...");
 
   int player_tile_placement[6] = {0};
+  int recent_tile_placement;
   bool player_wins = false;
   char player_press;
   
@@ -929,14 +930,25 @@ void snake_and_ladder_game() {
 
         }
       }while(player_press != player_key_roll[i]);
+      recent_tile_placement = player_tile_placement[i];
       player_tile_placement[i] += dice_roller();
+      cout << "\n\n" << player_names[i] << " " << player_avatars[i] << ":\n    🔹 Recent Tile : " << recent_tile_placement << "\n    🎲 Tile After Dice Roll: " << player_tile_placement[i] << endl;
+      terminal_pause("\nPress ENTER to continue...");
       
       if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🐍"){
-        cout << "OH NO YOU GOT BEATEN BY A SNAKE!!! ";
-        terminal_pause(" press ENTER to continue...");
+        clear_screen();
+        cout << player_names[i] << player_avatars[i] << endl;
+        cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
+        cout << "OH NO YOU GOT BITTEN BY A SNAKE!!! 🤢\n";
+        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Bitten by SNAKE🐍: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty) << endl;
+        terminal_pause("\nPress ENTER to continue...");
       }else if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🪜"){
-        cout << "YOUR LUCKY YOU FOUND A LADDER!!!";
-        terminal_pause(" press ENTER to continue...");
+        clear_screen();
+        cout << player_names[i] << player_avatars[i] << endl;
+        cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
+        cout << "YOUR LUCKY YOU FOUND A LADDER!!! 🤑\n";
+        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty) << endl;
+        terminal_pause("\nPress ENTER to continue...");
       }
 
       player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty);
@@ -1080,9 +1092,9 @@ int dice_roller() {
   }
   
   clear_screen();
-  cout << "Final Dice Roll: \n";
+  cout << "Final Dice Roll 🏁: \n";
   display_dice_face(dice_number);
-  terminal_pause("\nPress ENTER to continue...");
+  cout << "\nYou got 🎲 " << dice_number << endl;
   return dice_number;
 }
 void display_dice_face(int dice_number) {
@@ -1150,29 +1162,29 @@ int player_tile_placement_checker(int player_tile_placement, int difficulty){
           return 71;
       }
   }else if(difficulty == 1){
-      if(player_tile_placement == 8){
+      if(player_tile_placement == 8 || player_tile_placement == 13){
           return 28;
       }else if(player_tile_placement == 11){
           return 10;
-      }else if(player_tile_placement == 18){
+      }else if(player_tile_placement == 18 || player_tile_placement == 23){
           return 38;
       }else if(player_tile_placement == 24){
           return 17;
       }else if(player_tile_placement == 50){
           return 31;
-      }else if(player_tile_placement == 48){
+      }else if(player_tile_placement == 48 || player_tile_placement == 53){
           return 68;
       }else if(player_tile_placement == 45){
           return 36;
-      }else if(player_tile_placement == 58){
+      }else if(player_tile_placement == 58 || player_tile_placement == 63){
           return 78;
-      }else if(player_tile_placement == 61){
+      }else if(player_tile_placement == 61 || player_tile_placement == 80 || player_tile_placement == 81){
           return 100;
       }else if(player_tile_placement == 90){
           return 71;
-      }else if(player_tile_placement == 93){
+      }else if(player_tile_placement == 93 || player_tile_placement == 88){
           return 73;
-      }else if(player_tile_placement == 96){
+      }else if(player_tile_placement == 96 || player_tile_placement == 85 || player_tile_placement == 76){
           return 65;
       }else if(player_tile_placement == 99){
           return 82;
