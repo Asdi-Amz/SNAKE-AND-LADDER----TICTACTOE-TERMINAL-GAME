@@ -57,6 +57,7 @@ void print_table_boarder();
 void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[]);
 int dice_roller();
 void display_dice_face(int dice_number);
+int player_tile_placement_checker(int player_tile_placement, int difficulty);
 void snake_and_ladder_how_to_play();
 void snake_and_ladder_developer_section();
 
@@ -813,14 +814,14 @@ void snake_and_ladder_game() {
     
     {"00",
       " 01", " 02", " 03", " 04", " 05", " 06", " 07"," 🪜", " 09", " 10",
-      " 🐍", " 🪜", " 13", " 14", " 15", " 16", " 17"," 🪜", " 19", " 20",
-      " 21", " 🪜", " 23", " 🐍", " 25", " 26", " 27", " 28", " 29", " 30",
+      " 🐍", " 12", " 🪜", " 14", " 15", " 16", " 17"," 🪜", " 19", " 20",
+      " 21", " 22", " 🪜", " 🐍", " 25", " 26", " 27", " 28", " 29", " 30",
       " 31", " 32", " 33", " 34", " 35", " 36", " 37", " 38", " 39", " 40",
       " 41", " 42", " 43", " 44", " 🐍", " 46", " 47", " 🪜", " 49", " 🐍",
-      " 51", " 52", " 53", " 🪜", " 55", " 56", " 57", " 🪜", " 59", " 60",
-      " 🪜", " 62", " 63", " 🪜", " 65", " 66", " 67", " 68", " 69", " 70",
-      " 71", " 72", " 73", " 74", " 75", " 🐍", " 77", " 78", " 79", " 80",
-      " 🪜", " 82", " 83", " 84", " 85", " 86", " 87", " 88", " 89",  " 🐍",
+      " 51", " 52", " 🪜", " 54", " 55", " 56", " 57", " 🪜", " 59", " 60",
+      " 🪜", " 62", " 🪜", " 64", " 65", " 66", " 67", " 68", " 69", " 70",
+      " 71", " 72", " 73", " 74", " 75", " 🐍", " 77", " 78", " 79", " 🪜",
+      " 🪜", " 82", " 83", " 84", " 🐍", " 86", " 87", " 🐍", " 89",  " 🐍",
       " 91", " 92", " 🐍", " 94", " 95", " 🐍", " 97", " 98", " 🐍", "100"},
     
     {"00",
@@ -929,6 +930,18 @@ void snake_and_ladder_game() {
         }
       }while(player_press != player_key_roll[i]);
       player_tile_placement[i] += dice_roller();
+      
+      if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🐍"){
+        cout << "OH NO YOU GOT BEATEN BY A SNAKE!!! ";
+        terminal_pause(" press ENTER to continue...");
+      }else if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🪜"){
+        cout << "YOUR LUCKY YOU FOUND A LADDER!!!";
+        terminal_pause(" press ENTER to continue...");
+      }
+
+      player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty);
+
+        
 
     }
     
@@ -1075,6 +1088,63 @@ void display_dice_face(int dice_number) {
     };
     
     cout << dice_faces[dice_number - 1];
+}
+
+int player_tile_placement_checker(int player_tile_placement, int difficulty){
+  if(difficulty == 0){
+      if(player_tile_placement == 18){
+          return 23;
+      }else if(player_tile_placement == 24){
+          return 17;
+      }else if(player_tile_placement == 45){
+          return 36;
+      }else if(player_tile_placement == 54){
+          return 67;
+      }else if(player_tile_placement == 64){
+          return 77;
+      }else if(player_tile_placement == 61){
+          return 80;
+      }else if(player_tile_placement == 76){
+          return 65;
+      }else if(player_tile_placement == 82){
+          return 99;
+      }else if(player_tile_placement == 90){
+          return 71;
+      }
+  }else if(difficulty == 1){
+      if(player_tile_placement == 8){
+          return 28;
+      }else if(player_tile_placement == 11){
+          return 10;
+      }else if(player_tile_placement == 18){
+          return 38;
+      }else if(player_tile_placement == 24){
+          return 17;
+      }else if(player_tile_placement == 50){
+          return 31;
+      }else if(player_tile_placement == 48){
+          return 68;
+      }else if(player_tile_placement == 45){
+          return 36;
+      }else if(player_tile_placement == 58){
+          return 78;
+      }else if(player_tile_placement == 61){
+          return 100;
+      }else if(player_tile_placement == 90){
+          return 71;
+      }else if(player_tile_placement == 93){
+          return 73;
+      }else if(player_tile_placement == 96){
+          return 65;
+      }else if(player_tile_placement == 99){
+          return 82;
+      }
+  }else{
+    return player_tile_placement; 
+  }
+
+
+  return player_tile_placement;
 }
 
 void snake_and_ladder_how_to_play() {}
