@@ -946,8 +946,8 @@ void snake_and_ladder_game() {
         clear_screen();
         cout << player_names[i] << player_avatars[i] << endl;
         cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
-        cout << "YOUR LUCKY YOU FOUND A LADDER!!! 🤑\n";
-        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty) << endl;
+        cout << "YOU'RE LUCKY YOU FOUND A LADDER!!! 🤑\n";
+        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty) << endl;
         terminal_pause("\nPress ENTER to continue...");
       }
 
