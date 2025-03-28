@@ -1032,23 +1032,23 @@ void print_snake_and_ladder_board(string board_tile[], int difficulty, string pl
       cout<< "\t\tCURRENT PLACEMENT\n";
     }
 
-    if(i == 2 && i <= total_players){
+    if(i == 2 && i <= total_players + 1){
       cout << "\t\t" << player_avatars[0] << " TILE: " << player_tile_placement[0] << endl;
     }
 
-    if(i == 3 && i <= total_players){
+    if(i == 3 && i <= total_players + 1){
       cout << "\t\t" << player_avatars[1] << " TILE: " << player_tile_placement[1] << endl;
     }
 
-    if(i == 4 && i <= total_players){
+    if(i == 4 && i <= total_players + 1){
       cout << "\t\t" << player_avatars[2] << " TILE: " << player_tile_placement[2] << endl;
     }
 
-    if(i == 5 && i <= total_players){
+    if(i == 5 && i <= total_players + 1){
       cout << "\t\t" << player_avatars[3] << " TILE: " << player_tile_placement[3] << endl;
     }
 
-    if(i == 6 && i <= total_players){
+    if(i == 6 && i <= total_players + 1){
       cout << "\t\t" << player_avatars[4] << " TILE: " << player_tile_placement[4] << endl;
     }
 
