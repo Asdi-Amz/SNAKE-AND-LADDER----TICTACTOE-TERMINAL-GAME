@@ -54,7 +54,7 @@ int find_best_move(string board[], bool hardMode);
 void snake_and_ladder_game_menu();
 void snake_and_ladder_game();
 void print_table_boarder();
-void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[]);
+void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[], int total_players);
 int dice_roller();
 void display_dice_face(int dice_number);
 int player_tile_placement_checker(int player_tile_placement, int difficulty);
@@ -917,7 +917,7 @@ void snake_and_ladder_game() {
   do{
 
     for(int i = 0; i < number_of_players; i++){
-      print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement);
+      print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
       
       do{
         cout << "\n\n";
@@ -956,12 +956,12 @@ void snake_and_ladder_game() {
 
 }
 void print_table_boarder(){
-  cout << "+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
+  cout << "+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+";
 }
 
 
 
-void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[]) {
+void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[], int total_players) {
   clear_screen();
 
   string avatar_board_tile[101];
@@ -1002,20 +1002,58 @@ void print_snake_and_ladder_board(string board_tile[], int difficulty, string pl
   for(int i = 1; i <= 21  ; i++){
     if(i % 2 == 1){
         print_table_boarder();
+        if(i > (total_players + 1)){
+          cout << "\n";
+        }
     }else if(i % 2 == 0 && i % 4 != 0){
         for(int j = tile_end; j > (tile_end - 10); j--){
             cout << "| " << avatar_board_tile[j] << " ";
         }
-        cout << "|\n";
+        cout << "|";
+        if(i > (total_players + 1)){
+          cout << "\n";
+        }
         tile_end -= 10;
 
     }else{
         for(int j = (tile_end - 9); j <= tile_end; j++){
             cout << "| " << avatar_board_tile[j] << " ";
         }
-        cout << "|\n";
+        cout << "|";
+        if(i > (total_players + 1)){
+          cout << "\n";
+        }
         tile_end -= 10;
 
+    }
+
+
+    if(i == 1){
+      cout<< "\t\tCURRENT PLACEMENT\n";
+    }
+
+    if(i == 2 && i <= total_players){
+      cout << "\t\t" << player_avatars[0] << " TILE: " << player_tile_placement[0] << endl;
+    }
+
+    if(i == 3 && i <= total_players){
+      cout << "\t\t" << player_avatars[1] << " TILE: " << player_tile_placement[1] << endl;
+    }
+
+    if(i == 4 && i <= total_players){
+      cout << "\t\t" << player_avatars[2] << " TILE: " << player_tile_placement[2] << endl;
+    }
+
+    if(i == 5 && i <= total_players){
+      cout << "\t\t" << player_avatars[3] << " TILE: " << player_tile_placement[3] << endl;
+    }
+
+    if(i == 6 && i <= total_players){
+      cout << "\t\t" << player_avatars[4] << " TILE: " << player_tile_placement[4] << endl;
+    }
+
+    if(i == 7 && i <= total_players + 1){
+      cout << "\t\t" << player_avatars[5] << " TILE: " << player_tile_placement[5] << endl;
     }
 
 }
