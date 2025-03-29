@@ -512,12 +512,12 @@ void tictactoe_game(bool vsAI, bool hardMode)
     char exit_decision, exit_decision_confirmation;
 
     cout << "Press E [e] if you want end the game and go back to game menu if not just press any other key...";
-    exit_decision = _getch();
-
+    //exit_decision = _getch();
+exit_decision = getch();
     if(exit_decision == 'e'){
       clear_screen();
       cout << "Are you sure you want to EXIT? Press Y [y] if yes and if no press any other key";
-      exit_decision_confirmation = _getch();
+      exit_decision_confirmation = getch();
 
       if(exit_decision_confirmation == 'y'){
         tictactoe_game_menu();
@@ -825,12 +825,12 @@ void snake_and_ladder_game() {
       " 91", " 92", " 🐍", " 94", " 95", " 🐍", " 97", " 98", " 🐍", "100"},
     
     {"00",
-    " 01", " 02", " 03", " 04", " 05", " 06", " 07"," 🪜", " 09", " 10",
-    " 🐍", " 🪜", " 13", " 🐍", " 15", " 16", " 17"," 🪜", " 19", " 20",
-    " 21", " 🪜", " 23", " 🐍", " 25", " 26", " 27", " 28", " 29", " 30",
+    " 🪜", " 02", " 03", " 04", " 05", " 06", " 07"," 08", " 🪜", " 10",
+    " 🐍", " 🪜", " 13", " 🐍", " 15", " 16", " 17"," 18", " 🪜", " 🪜",
+    " 🪜", " 🪜", " 23", " 🐍", " 25", " 26", " 27", " 28", " 29", " 30",
     " 31", " 32", " 33", " 34", " 🐍", " 36", " 37", " 38", " 39", " 40",
-    " 41", " 42", " 43", " 44", " 🐍", " 46", " 47", " 🪜", " 49", " 🐍",
-    " 51", " 52", " 53", " 🪜", " 55", " 56", " 57", " 🪜", " 59", " 60",
+    " 41", " 42", " 43", " 44", " 🐍", " 46", " 🪜", " 48", " 49", " 🐍",
+    " 51", " 52", " 53", " 🪜", " 55", " 56", " 🪜", " 58", " 59", " 60",
     " 🐍", " 62", " 🐍", " 🪜", " 65", " 66", " 67", " 68", " 69", " 70",
     " 71", " 72", " 🐍", " 74", " 75", " 🐍", " 77", " 🐍", " 79", " 80",
     " 🪜", " 🐍", " 🐍", " 🐍", " 85", " 🐍", " 87", " 🐍", " 🐍",  " 🐍",
@@ -845,7 +845,7 @@ void snake_and_ladder_game() {
 
   string player_names[] = {"PLAYER 1", "Pikselito (COMP)", "Bitoy Byte (COMP)", "Ctrl-Z Santos (COMP)", "AI Delas Alas (COMP)", "Giga Bites (COMP)"};
   string player_avatars[] = {">👺", ">👻", ">😈", ">👽", ">🤖", ">😼"};
-  char player_key_roll[] = {'q', 'p', 'z', 'm', 'f', 'k'};
+  char player_key_roll[] = {'q', 'w', 'e', 'r', 't', 'y'};
 
   int number_of_players = display_options(number_of_player_options, "DECIDE THE NUMBER OF REAL PLAYERS TO JOIN THE GAME🤼") + 1;
   int number_of_ai_players = 0;
@@ -1189,6 +1189,55 @@ int player_tile_placement_checker(int player_tile_placement, int difficulty){
       }else if(player_tile_placement == 99){
           return 82;
       }
+  }else if (difficulty == 2){
+      if(player_tile_placement == 99 ||  player_tile_placement == 82){
+        return 79;
+      }else if(player_tile_placement == 97 || player_tile_placement == 84){
+        return 77;
+      }else if(player_tile_placement == 96){
+        return 85;
+      }else if(player_tile_placement == 94){
+        return 87;
+      }else if(player_tile_placement == 93 || player_tile_placement == 88 || player_tile_placement == 73){
+        return 68;
+      }else if(player_tile_placement == 90){
+        return 71;
+      }else if(player_tile_placement == 89){
+        return 72;
+      }else if(player_tile_placement == 86){
+        return 75;
+      }else if(player_tile_placement == 81){
+        return 100;
+      }else if(player_tile_placement == 76){
+        return 65;
+      }else if(player_tile_placement == 61){
+        return 60;
+      }else if(player_tile_placement == 83 || player_tile_placement == 78 || player_tile_placement == 63){
+        return 58;
+      }else if(player_tile_placement == 64 || player_tile_placement == 57){
+        return 77;
+      }else if(player_tile_placement == 54 || player_tile_placement == 47){
+        return 67;
+      }else if(player_tile_placement == 50){
+        return 31;
+      }else if(player_tile_placement == 45){
+        return 36;
+      }else if(player_tile_placement == 35){
+        return 26;
+      }else if(player_tile_placement == 24){
+        return 17;
+      }else if(player_tile_placement == 14){
+        return 7;
+      }else if(player_tile_placement == 11){
+        return 10;
+      }else if(player_tile_placement == 9 || player_tile_placement == 12){
+        return 29;
+      }else if(player_tile_placement == 19 || player_tile_placement == 22){
+        return 39;
+      }else if(player_tile_placement == 1 || player_tile_placement == 20 || player_tile_placement == 21){
+        return 40;
+      }
+  
   }else{
     return player_tile_placement; 
   }
