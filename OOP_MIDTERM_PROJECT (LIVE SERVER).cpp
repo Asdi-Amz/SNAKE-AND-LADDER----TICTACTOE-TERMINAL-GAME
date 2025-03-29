@@ -913,10 +913,9 @@ void snake_and_ladder_game() {
   int recent_tile_placement;
   bool player_wins;
   char player_press;
-  
+  int player_tile_placement[6] = {0};
   
   do{
-    int player_tile_placement[6] = {0};
     player_wins = false;
 
 
@@ -955,13 +954,17 @@ void snake_and_ladder_game() {
       }
 
       player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty);
-
-        
-
     }
-    
-    
-    
+
+    for(int i = 0; i < 6; i++){
+      if(player_tile_placement[i] == 100){
+        player_wins = true;
+        cout << "CONGRATULATIONS " << player_names[i] << " YOU ARE THE FIRST TO FINISH THE RACE!!!🎉🍾🎊\n\n\n" << endl;
+        terminal_pause("Press ENTER to go back to main menu...");
+        snake_and_ladder_game_menu();
+        return;
+      }
+    }
 
   }while(!player_wins);
   
@@ -988,6 +991,26 @@ void print_snake_and_ladder_board(string board_tile[], int difficulty, string pl
   for(int i = 0; i < 6; i++){
     avatar_board_tile[player_tile_placement[i]] = player_avatars[i];
   }
+
+  int leading_player;
+  int second_leading;
+  int third_leading;
+
+  leading_player = second_leading = third_leading = INT_MIN;
+
+  for (int i = 0; i < 6; i++) {
+      if (player_tile_placement[i] > leading_player) {
+        third_leading = second_leading;
+        second_leading = leading_player;
+        leading_player = player_tile_placement[i];
+    } else if (player_tile_placement[i] > second_leading && player_tile_placement[i] < leading_player) {
+        third_leading = second_leading;
+        second_leading = player_tile_placement[i];
+    } else if (player_tile_placement[i] > third_leading && player_tile_placement[i] < second_leading) {
+        third_leading = player_tile_placement[i];
+  }
+  }
+
 
 
 
@@ -1042,34 +1065,100 @@ void print_snake_and_ladder_board(string board_tile[], int difficulty, string pl
 
     }
 
-
+    
     if(i == 1){
       cout<< "\t\tCURRENT PLACEMENT\n";
     }
 
     if(i == 2 && i <= total_players + 1){
-      cout << "\t\t" << player_avatars[0] << " TILE: " << player_tile_placement[0] << endl;
+      cout << "\t\t" << player_avatars[0] << " TILE: " << player_tile_placement[0];
+      if(player_tile_placement[0] > 0){
+        if(player_tile_placement[0] == leading_player){
+          cout << "\t🥇";
+        }else if(player_tile_placement[0] == second_leading){
+          cout << "\t🥈";
+        }else if(player_tile_placement[0] == third_leading){
+          cout << "\t🥉";
+        }
+      }
+  
+      cout << "\n";
     }
-
+    
     if(i == 3 && i <= total_players + 1){
-      cout << "\t\t" << player_avatars[1] << " TILE: " << player_tile_placement[1] << endl;
+      cout << "\t\t" << player_avatars[1] << " TILE: " << player_tile_placement[1];
+      if(player_tile_placement[1] > 0){
+        if(player_tile_placement[1] == leading_player){
+          cout << "\t🥇";
+        }else if(player_tile_placement[1] == second_leading){
+          cout << "\t🥈";
+        }else if(player_tile_placement[1] == third_leading){
+          cout << "\t🥉";
+        } 
+      }
+      cout << "\n";
     }
+    
 
     if(i == 4 && i <= total_players + 1){
-      cout << "\t\t" << player_avatars[2] << " TILE: " << player_tile_placement[2] << endl;
+      cout << "\t\t" << player_avatars[2] << " TILE: " << player_tile_placement[2];
+      if(player_tile_placement[2] > 0){
+        if(player_tile_placement[2] == leading_player){
+          cout << "\t🥇";
+        }else if(player_tile_placement[2] == second_leading){
+          cout << "\t🥈";
+        }else if(player_tile_placement[2] == third_leading){
+          cout << "\t🥉";
+        }
+      }
+      cout << "\n";
     }
+    
 
     if(i == 5 && i <= total_players + 1){
-      cout << "\t\t" << player_avatars[3] << " TILE: " << player_tile_placement[3] << endl;
+      cout << "\t\t" << player_avatars[3] << " TILE: " << player_tile_placement[3];
+      if(player_tile_placement[3] > 0){
+        if(player_tile_placement[3] == leading_player){
+          cout << "\t🥇";
+        }else if(player_tile_placement[3] == second_leading){
+          cout << "\t🥈";
+        }else if(player_tile_placement[3] == third_leading){
+          cout << "\t🥉";
+        }
+      }
+      
+      cout << "\n";
     }
+    
 
     if(i == 6 && i <= total_players + 1){
-      cout << "\t\t" << player_avatars[4] << " TILE: " << player_tile_placement[4] << endl;
+      cout << "\t\t" << player_avatars[4] << " TILE: " << player_tile_placement[4];
+      if(player_tile_placement[4] > 0){
+        if(player_tile_placement[4] == leading_player){
+          cout << "\t🥇";
+        }else if(player_tile_placement[4] == second_leading){
+          cout << "\t🥈";
+        }else if(player_tile_placement[4] == third_leading){
+          cout << "\t🥉";
+        }
+      }
+      cout << "\n";
     }
 
     if(i == 7 && i <= total_players + 1){
-      cout << "\t\t" << player_avatars[5] << " TILE: " << player_tile_placement[5] << endl;
+      cout << "\t\t" << player_avatars[5] << " TILE: " << player_tile_placement[5];
+      if(player_tile_placement[5] > 0){
+        if(player_tile_placement[5] == leading_player){
+          cout << "\t🥇";
+        }else if(player_tile_placement[5] == second_leading){
+          cout << "\t🥈";
+        }else if(player_tile_placement[5] == third_leading){
+          cout << "\t🥉";
+        }
+      }
+      cout << "\n";
     }
+    
 
 }
   
