@@ -909,13 +909,16 @@ void snake_and_ladder_game() {
   cout << player_names[0] << player_avatars[0] << " will take the first roll 🎲 ,  ";
   terminal_pause("Press ENTER and the game will begins...");
 
-  int player_tile_placement[6] = {0};
+  
   int recent_tile_placement;
-  bool player_wins = false;
+  bool player_wins;
   char player_press;
   
   
   do{
+    int player_tile_placement[6] = {0};
+    player_wins = false;
+
 
     for(int i = 0; i < number_of_players; i++){
       print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
