@@ -11,7 +11,7 @@
 
 #ifdef _WIN32
 #include <conio.h>
-#include <windows.h>🥉
+#include <windows.h>
 #else
 #include <sys/ioctl.h>
 #include <termios.h>
