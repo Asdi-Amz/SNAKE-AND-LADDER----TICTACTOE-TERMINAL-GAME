@@ -11,7 +11,7 @@
 
 #ifdef _WIN32
 #include <conio.h>
-#include <windows.h>
+#include <windows.h>🥉
 #else
 #include <sys/ioctl.h>
 #include <termios.h>
@@ -32,6 +32,10 @@ void cursor_show();
 void terminal_pause(const string &prompt);
 void delay(int milliseconds);
 int getch();
+
+string interpolateColor(int r1, int g1, int b1, int r2, int g2, int b2, float ratio);
+void displayTicTacToeTitle();
+void displaySnakeLadderTitle();
 
 void arrow_options_animation(const vector<string> &options, int selected);
 int display_options(const vector<string> &options, const string &title);
@@ -89,9 +93,9 @@ int main()
   SetConsoleOutputCP(65001);
 #endif
   srand(time(0)); // Add this line for random number generation
-
+  cursor_hide();
   vector<string> game_options = {" Tictactoe ❌🔵", " Snake and Ladder 🪜🐍"};
-
+  
   while (true)
   {
     int game_selected = display_options(game_options, "Please Select a Game");
@@ -108,6 +112,86 @@ int main()
   }
 
   return 0;
+}
+
+string interpolateColor(int r1, int g1, int b1, int r2, int g2, int b2,
+  float ratio)
+{
+int r = r1 + (int)((r2 - r1) * ratio);
+int g = g1 + (int)((g2 - g1) * ratio);
+int b = b1 + (int)((b2 - b1) * ratio);
+return "\033[38;2;" + to_string(r) + ";" + to_string(g) + ";" + to_string(b) +
+"m";
+}
+
+void displayTicTacToeTitle()
+{
+cout << endl;
+string asciiArt[] = {
+"████████╗██╗ ██████╗████████╗ █████╗  ██████╗████████╗ ██████╗███████╗",
+"╚══██╔══╝██║██╔════╝╚══██╔══╝██╔══██╗██╔════╝╚══██╔══╝██╔═══██╗██╔════╝",
+"   ██║   ██║██║        ██║   ███████║██║        ██║   ██║   ██║█████╗  ",
+"   ██║   ██║██║        ██║   ██╔══██║██║        ██║   ██║   ██║██╔══╝  ",
+"   ██║   ██║╚██████╗   ██║   ██║  ██║╚██████╗   ██║   ╚██████╔╝███████╗",
+"   ╚═╝   ╚═╝ ╚═════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝   ╚═╝    ╚═════╝ "
+"╚══════╝"};
+
+// Blue to cyan gradient (similar intensity to snake and ladder gradients)
+for (size_t i = 0; i < 6; ++i)
+{
+float ratio = static_cast<float>(i) / 5.0f;
+// Dark blue to bright cyan
+string color = interpolateColor(0, 0, 150, 0, 255, 255, ratio);
+cout << color << asciiArt[i] << "\033[0m" << endl;
+}
+}
+
+void displaySnakeLadderTitle()
+{
+cout << endl;
+string snakeArt[] = {"███████╗███╗   ██╗ █████╗ ██╗  ██╗███████╗",
+ "██╔════╝████╗  ██║██╔══██╗██║ ██╔╝██╔════╝",
+ "███████╗██╔██╗ ██║███████║█████╔╝ █████╗  ",
+ "╚════██║██║╚██╗██║██╔══██║██╔═██╗ ██╔══╝  ",
+ "███████║██║ ╚████║██║  ██║██║  ██╗███████╗",
+ "╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝"};
+
+string andArt[] = {
+" █████╗ ███╗   ██╗██████╗ ", "██╔══██╗████╗  ██║██╔══██╗",
+"███████║██╔██╗ ██║██║  ██║", "██╔══██║██║╚██╗██║██║  ██║",
+"██║  ██║██║ ╚████║██████╔╝", "╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ "};
+
+string ladderArt[] = {"██╗      █████╗ ██████╗ ██████╗ ███████╗██████╗ ",
+  "██║     ██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗",
+  "██║     ███████║██║  ██║██║  ██║█████╗  ██████╔╝",
+  "██║     ██╔══██║██║  ██║██║  ██║██╔══╝  ██╔══██╗",
+  "███████╗██║  ██║██████╔╝██████╔╝███████╗██║  ██║",
+  "╚══════╝╚═╝  ╚═╝╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝"};
+
+// SNAKE gradient (green to light green)
+for (size_t i = 0; i < 6; ++i)
+{
+float ratio = static_cast<float>(i) / 5.0f;
+string color = interpolateColor(0, 150, 0, 144, 238, 144, ratio);
+cout << string(4, ' ') << color << snakeArt[i] << "\033[0m" << endl;
+}
+
+// AND gradient (gold to yellow)
+for (size_t i = 0; i < 6; ++i)
+{
+float ratio = static_cast<float>(i) / 5.0f;
+string color = interpolateColor(218, 165, 32, 255, 255, 0, ratio);
+cout << string(12, ' ') << color << andArt[i] << "\033[0m" << endl;
+}
+
+// LADDER gradient (red to orange)
+for (size_t i = 0; i < 6; ++i)
+{
+float ratio = static_cast<float>(i) / 5.0f;
+string color = interpolateColor(178, 34, 34, 255, 165, 0, ratio);
+cout << string(2, ' ') << color << ladderArt[i] << "\033[0m" << endl;
+}
+cout << endl;
 }
 
 void clear_input_buffer()
@@ -224,6 +308,9 @@ int display_options(const vector<string> &options, const string &title)
 
 void tictactoe_game_menu()
 {
+  clear_screen();
+  displayTicTacToeTitle();
+  terminal_pause("\nENTER to continue...\n");
   clear_screen();
   cout << "*****************************************\n"
        << "    👋 WELCOME TO ❌TICTACTOE GAME🔵\n"
@@ -768,6 +855,9 @@ void tictactoe_developer_section()
 void snake_and_ladder_game_menu()
 {
   int menu_decision = 0;
+  clear_screen();
+  displaySnakeLadderTitle();
+  terminal_pause("\nENTER to continue...\n");
   clear_screen();
   cout << "*******************************************\n"
        << "   👋 WELCOME TO SNAKE 🐍 AND LADDER 🪜\n"
