@@ -27,6 +27,7 @@ const int WIN_SCORE = 3;
 // Function prototypes
 void clear_input_buffer();
 void clear_screen();
+void gotoxy(int x, int y);
 void cursor_hide();
 void cursor_show();
 void terminal_pause(const string &prompt);
@@ -199,6 +200,13 @@ void clear_input_buffer()
   cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
+void gotoxy(int x, int y) {
+  COORD coord;
+  coord.X = x;
+  coord.Y = y;
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
 void clear_screen()
 {
 #ifdef _WIN32
@@ -247,7 +255,7 @@ void arrow_options_animation(const vector<string> &options, int selected)
 {
   for (size_t i = 0; i < options.size(); i++)
   {
-    cout << (i == selected ? "👉🏼 " : "  ") << options[i] << endl;
+    cout << (i == selected ? "👉🏼" : " ") << options[i] << endl;
   }
 }
 
