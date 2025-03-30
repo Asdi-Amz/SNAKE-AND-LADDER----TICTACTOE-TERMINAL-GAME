@@ -11,7 +11,7 @@
 
 #ifdef _WIN32
 #include <conio.h>
-#include <windows.h>🥉
+#include <windows.h>
 #else
 #include <sys/ioctl.h>
 #include <termios.h>
@@ -247,7 +247,7 @@ void arrow_options_animation(const vector<string> &options, int selected)
 {
   for (size_t i = 0; i < options.size(); i++)
   {
-    cout << (i == selected ? ">" : " ") << options[i] << endl;
+    cout << (i == selected ? "👉🏼 " : "  ") << options[i] << endl;
   }
 }
 
