@@ -32,6 +32,7 @@ void cursor_show();
 void terminal_pause(const string &prompt);
 void delay(int milliseconds);
 int getch();
+void gotoxy(int x, int y);
 
 string interpolateColor(int r1, int g1, int b1, int r2, int g2, int b2, float ratio);
 void displayTicTacToeTitle();
@@ -68,6 +69,13 @@ void snake_and_ladder_developer_section();
 void delay(int milliseconds)
 {
   std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+}
+
+void gotoxy(int x, int y) {
+  COORD coord;
+  coord.X = x;
+  coord.Y = y;
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
 int getch()
@@ -247,7 +255,7 @@ void arrow_options_animation(const vector<string> &options, int selected)
 {
   for (size_t i = 0; i < options.size(); i++)
   {
-    cout << (i == selected ? ">" : " ") << options[i] << endl;
+    cout << (i == selected ? "👉🏼" : " ") << options[i] << endl;
   }
 }
 
@@ -1258,7 +1266,7 @@ int dice_roller() {
   int dice_number;
 
   for(int i = 0; i < 10; i++){
-    clear_screen();
+    gotoxy(70, 10);
     cout << "Rolling the dice...\n";
     dice_number = (rand() % 6) + 1;
     display_dice_face(dice_number);
@@ -1266,14 +1274,14 @@ int dice_roller() {
   }
 
   for(int i = 0; i < 3; i++){
-    clear_screen();
+    gotoxy(70, 10);
     cout << "Rolling the dice...\n";
     dice_number = (rand() % 6) + 1;
     display_dice_face(dice_number);
     this_thread::sleep_for(chrono::milliseconds(500));
   }
   
-  clear_screen();
+  gotoxy(70, 10);
   cout << "Final Dice Roll 🏁: \n";
   display_dice_face(dice_number);
   cout << "\nYou got 🎲 " << dice_number << endl;
@@ -1318,6 +1326,7 @@ void display_dice_face(int dice_number) {
         "\t\t -----"
 
     };
+    
     
     cout << dice_faces[dice_number - 1];
 }
