@@ -1032,8 +1032,14 @@ void snake_and_ladder_game() {
       }while(player_press != player_key_roll[i]);
       recent_tile_placement = player_tile_placement[i];
       player_tile_placement[i] += dice_roller();
-      cout << "\n\n" << player_names[i] << " " << player_avatars[i] << ":\n    🔹 Recent Tile : " << recent_tile_placement << "\n    🎲 Tile After Dice Roll: " << player_tile_placement[i] << endl;
-      terminal_pause("\nPress ENTER to continue...");
+      gotoxy(63,22);
+      cout << player_names[i] << " " << player_avatars[i] << ": ";
+      gotoxy(68,23);
+      cout << "    🔹 Recent Tile : " << recent_tile_placement;
+      gotoxy(68,24); 
+      cout << "    🎲 Tile After Dice Roll: " << player_tile_placement[i] << endl;
+      gotoxy(68,26);
+      terminal_pause("Press ENTER to continue...");
       
       if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🐍"){
         clear_screen();
@@ -1066,9 +1072,26 @@ void snake_and_ladder_game() {
         clear_screen();
         cout<< "AIGHT YOU GOTTA LAND ON TILE 100 WITH THE EXACT NUMBER OF MOVES🐾🐾\n\n" 
             <<"CURRENT TILE: " << player_tile_placement[i] << "\t\tTILE FOR GOING BACKWARDS FOR EXCESS STEPS: " << 100 - (player_tile_placement[i] % 100) << endl;
-
         player_tile_placement[i] = 100 - (player_tile_placement[i] % 100);
       }
+      
+      if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🐍"){
+        clear_screen();
+        cout << player_names[i] << player_avatars[i] << endl;
+        cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
+        cout << "OH NO YOU GOT BITTEN BY A SNAKE!!! 🤢\n";
+        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Bitten by SNAKE🐍: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty) << endl;
+        terminal_pause("\nPress ENTER to continue...");
+      }else if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🪜"){
+        clear_screen();
+        cout << player_names[i] << player_avatars[i] << endl;
+        cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
+        cout << "YOU'RE LUCKY YOU FOUND A LADDER!!! 🤑\n";
+        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty) << endl;
+        terminal_pause("\nPress ENTER to continue...");
+      }
+
+      player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty);
 
     }
 
@@ -1276,7 +1299,7 @@ int dice_roller() {
   int dice_number;
 
   for(int i = 0; i < 10; i++){
-    clear_screen();
+    gotoxy(65,12);
     cout << "Rolling the dice...\n";
     dice_number = (rand() % 6) + 1;
     display_dice_face(dice_number);
@@ -1284,60 +1307,60 @@ int dice_roller() {
   }
 
   for(int i = 0; i < 3; i++){
-    clear_screen();
+    gotoxy(65,12);
     cout << "Rolling the dice...\n";
     dice_number = (rand() % 6) + 1;
     display_dice_face(dice_number);
     this_thread::sleep_for(chrono::milliseconds(500));
   }
   
-  clear_screen();
+  gotoxy(65,12);
   cout << "Final Dice Roll 🏁: \n";
   display_dice_face(dice_number);
-  cout << "\nYou got 🎲 " << dice_number << endl;
+  gotoxy(65,19);
+  cout << "You got 🎲 " << dice_number << endl;
   return dice_number;
 }
 void display_dice_face(int dice_number) {
     string dice_faces[] = {
-        "\t\t ----- \n"
-        "\t\t|     |\n"
-        "\t\t|  •  |\n"
-        "\t\t|     |\n"
-        "\t\t -----", 
+        "\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t|     |\n"
+        "\t\t\t\t\t\t\t\t\t\t|  •  |\n"
+        "\t\t\t\t\t\t\t\t\t\t|     |\n"
+        "\t\t\t\t\t\t\t\t\t\t ----- \n", 
     
-        "\t\t ----- \n"
-        "\t\t| •   |\n"
-        "\t\t|     |\n"
-        "\t\t|   • |\n"
-        "\t\t -----", 
+        "\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t| •   |\n"
+        "\t\t\t\t\t\t\t\t\t\t|     |\n"
+        "\t\t\t\t\t\t\t\t\t\t|   • |\n"
+        "\t\t\t\t\t\t\t\t\t\t ----- \n", 
     
-        "\t\t ----- \n"
-        "\t\t| •   |\n"
-        "\t\t|  •  |\n"
-        "\t\t|   • |\n"
-        "\t\t -----", 
+        "\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t| •   |\n"
+        "\t\t\t\t\t\t\t\t\t\t|  •  |\n"
+        "\t\t\t\t\t\t\t\t\t\t|   • |\n"
+        "\t\t\t\t\t\t\t\t\t\t ----- \n", 
     
-        "\t\t ----- \n"
-        "\t\t| • • |\n"
-        "\t\t|     |\n"
-        "\t\t| • • |\n"
-        "\t\t -----", 
+        "\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t|     |\n"
+        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t ----- \n", 
     
-        "\t\t ----- \n"
-        "\t\t| • • |\n"
-        "\t\t|  •  |\n"
-        "\t\t| • • |\n"
-        "\t\t -----", 
+        "\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t|  •  |\n"
+        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t ----- \n", 
     
-        "\t\t ----- \n"
-        "\t\t| • • |\n"
-        "\t\t| • • |\n"
-        "\t\t| • • |\n"
-        "\t\t -----"
+        "\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t ----- \n"
 
     };
-    
-    
+
     cout << dice_faces[dice_number - 1];
 }
 
