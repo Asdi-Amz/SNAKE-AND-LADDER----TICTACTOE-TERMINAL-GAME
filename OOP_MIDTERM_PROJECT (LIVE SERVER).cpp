@@ -27,6 +27,7 @@ const int WIN_SCORE = 3;
 // Function prototypes
 void clear_input_buffer();
 void clear_screen();
+void gotoxy(int x, int y);
 void cursor_hide();
 void cursor_show();
 void terminal_pause(const string &prompt);
@@ -206,6 +207,13 @@ void clear_screen()
 #else
   system("clear");
 #endif
+}
+
+void gotoxy(int x, int y) {
+  COORD coord;
+  coord.X = x;
+  coord.Y = y;
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
 void cursor_hide()
@@ -1328,6 +1336,7 @@ void display_dice_face(int dice_number) {
         "\t\t -----"
 
     };
+    
     
     cout << dice_faces[dice_number - 1];
 }
