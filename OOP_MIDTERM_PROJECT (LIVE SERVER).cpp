@@ -16,6 +16,7 @@
 #include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
+#include <climits>
 #endif
 
 using namespace std;
