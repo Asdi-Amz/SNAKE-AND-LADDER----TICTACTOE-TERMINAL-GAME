@@ -1044,9 +1044,8 @@ void snake_and_ladder_game() {
       }
 
       player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty);
-    }
 
-    for(int i = 0; i < 6; i++){
+
       if(player_tile_placement[i] == 100){
         player_wins = true;
         cout << "CONGRATULATIONS " << player_names[i] << " YOU ARE THE FIRST TO FINISH THE RACE!!!🎉🍾🎊\n\n\n" << endl;
@@ -1054,7 +1053,18 @@ void snake_and_ladder_game() {
         snake_and_ladder_game_menu();
         return;
       }
+
+      if(player_tile_placement[i] > 100){
+        clear_screen();
+        cout<< "AIGHT YOU GOTTA LAND ON TILE 100 WITH THE EXACT NUMBER OF MOVES🐾🐾\n\n" 
+            <<"CURRENT TILE: " << player_tile_placement[i] << "\t\tTILE FOR GOING BACKWARDS FOR EXCESS STEPS: " << 100 - (player_tile_placement[i] % 100) << endl;
+
+        player_tile_placement[i] = 100 - (player_tile_placement[i] % 100);
+      }
+
     }
+
+
 
   }while(!player_wins);
   
