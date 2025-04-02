@@ -68,7 +68,7 @@ void snake_and_ladder_developer_section();
 
 void delay(int milliseconds)
 {
-  std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+ this_thread::sleep_for(chrono::milliseconds(milliseconds));
 }
 
 int getch()
@@ -255,7 +255,7 @@ void arrow_options_animation(const vector<string> &options, int selected)
 {
   for (size_t i = 0; i < options.size(); i++)
   {
-    cout << (i == selected ? "➡️" : " ") << options[i] << endl;
+    cout << (i == selected ? "➡️" : " ") << options[i] << " " << endl;
   }
 }
 
@@ -266,7 +266,7 @@ int display_options(const vector<string> &options, const string &title)
 
   while (true)
   {
-    clear_screen();
+    gotoxy(0,0);
     cursor_hide();
 
     // Print title with border
@@ -275,6 +275,7 @@ int display_options(const vector<string> &options, const string &title)
          << string(8, ' ') << title << "\n"
          << string(title_length + 16, '*') << "\n\n";
 
+    gotoxy(0,4);     
     arrow_options_animation(options, selected);
     key = getch();
 
@@ -307,6 +308,7 @@ int display_options(const vector<string> &options, const string &title)
 #endif
     else if (key == '\r' || key == '\n')
     {
+      clear_screen();
       break;
     }
   }
@@ -369,7 +371,9 @@ void tictactoe_game_menu()
       clear_screen();
       cout << "\n\n\tTHANK YOU FOR PLAYING OUR GAME 🙏💖" << endl;
       terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...");
+      clear_screen();
       return;
+      break;
     }
   }
 }
@@ -399,6 +403,7 @@ void tictactoe_game(bool vsAI, bool hardMode)
     if (read_instruction_response == 'r')
     {
       tictactoe_how_to_play();
+      return;
     }
     else if (read_instruction_response != 'p')
     {
@@ -615,7 +620,6 @@ exit_decision = getch();
       exit_decision_confirmation = getch();
 
       if(exit_decision_confirmation == 'y'){
-        tictactoe_game_menu();
         return;
       }
     }
@@ -829,10 +833,11 @@ void tictactoe_how_to_play()
 
   if (instruction_decision == 'm')
   {
-    tictactoe_game_menu();
+    return;
   }
   else
   {
+    clear_screen();
     vector<string> mode_options = {" Player vs Player 👥",
                                    " Player vs AI 🤖 (Easy)",
                                    " Player vs AI 🤖 (Hard)"};
@@ -874,7 +879,8 @@ void snake_and_ladder_game_menu()
 
   vector<string> main_menu_options = {" Play Game 🕹️", " How to Play ❔",
                                       " Developers ⌨️", " Exit ➡️"};
-
+  
+  clear_screen();
   menu_decision = display_options(main_menu_options, "🐍 SNAKE AND LADDER 🪜");
 
   switch (menu_decision)
@@ -892,6 +898,7 @@ void snake_and_ladder_game_menu()
     clear_screen();
     cout << "\n\n\tTHANK YOU FOR PLAYING OUR GAME 🙏💖" << endl;
     terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...");
+    clear_screen();
     break;
   }
 }
@@ -951,34 +958,34 @@ void snake_and_ladder_game() {
   switch(number_of_players){
     case 1:
       {
-        vector<string> number_of_ai_player_options = {"1 AI", "2 AI", "3 AI", "4 AI", "5 AI"};
+        vector<string> number_of_ai_player_options = {"1 AI ", "2 AI ", "3 AI ", "4 AI ", "5 AI "};
         number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME") + 1;
         break;
       }
 
     case 2:
       {
-        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI", "2 AI", "3 AI", "4 AI"};
+        vector<string> number_of_ai_player_options = {"NO AI PLAYERS ", "1 AI ", "2 AI ", "3 AI ", "4 AI "};
         number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME");
         break;
       }
     
     case 3:
       {
-        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI", "2 AI", "3 AI"};
+        vector<string> number_of_ai_player_options = {"NO AI PLAYERS ", "1 AI ", "2 AI ", "3 AI "};
         number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME");
         break;
       }
     
     case 4:
       {
-        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI", "2 AI"};
+        vector<string> number_of_ai_player_options = {"NO AI PLAYERS ", "1 AI ", "2 AI "};
         number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME");
         break;
       }
     case 5:
       {
-        vector<string> number_of_ai_player_options = {"NO AI PLAYERS", "1 AI"};
+        vector<string> number_of_ai_player_options = {"NO AI PLAYERS ", "1 AI "};
         number_of_ai_players = display_options(number_of_ai_player_options, "DECIDE THE NUMBER OF AI PLAYERS TO JOIN THE GAME");
         break;
       }
@@ -1017,19 +1024,28 @@ void snake_and_ladder_game() {
     player_wins = false;
 
 
-    for(int i = 0; i < number_of_players; i++){
+    for(int i = 0; i < (number_of_players + number_of_ai_players); i++){
       print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
       
-      do{
-        cout << "\n\n";
-        cout << player_avatars[i] << " " << player_names[i] << "'s Turn Press [" << player_key_roll[i] << "] to roll the dice...\n";  
-        player_press = _getch();
-
-        if(player_press != player_key_roll[i]){
-          cout << "INVALID KEY! PRESS THE CORRECT KEY PLEASE...\n";
-
+      if(i < number_of_players){
+        do{
+          cout << "\n\n";
+          cout << player_avatars[i] << " " << player_names[i] << "'s Turn Press [" << player_key_roll[i] << "] to roll the dice...\n";  
+          player_press = _getch();
+  
+          if(player_press != player_key_roll[i]){
+            cout << "INVALID KEY! PRESS THE CORRECT KEY PLEASE...\n";
+  
+          }
+        }while(player_press != player_key_roll[i]);
+      }else{
+        gotoxy(65, 12);
+        cout << player_avatars[i] <<" "<<player_names[i] << " will roll the dice";
+        for(int j = 0; j < 3; j++){
+          cout<< ".";
+          delay(800);
         }
-      }while(player_press != player_key_roll[i]);
+      }
       recent_tile_placement = player_tile_placement[i];
       player_tile_placement[i] += dice_roller();
       gotoxy(63,22);
@@ -1064,8 +1080,7 @@ void snake_and_ladder_game() {
         player_wins = true;
         cout << "CONGRATULATIONS " << player_names[i] << " YOU ARE THE FIRST TO FINISH THE RACE!!!🎉🍾🎊\n\n\n" << endl;
         terminal_pause("Press ENTER to go back to main menu...");
-        snake_and_ladder_game_menu();
-        return;
+        break;
       }
 
       if(player_tile_placement[i] > 100){
@@ -1096,7 +1111,9 @@ void snake_and_ladder_game() {
     }
 
 
-
+    if(player_wins){
+      return;
+    }
   }while(!player_wins);
   
 
@@ -1300,7 +1317,7 @@ int dice_roller() {
 
   for(int i = 0; i < 10; i++){
     gotoxy(65,12);
-    cout << "Rolling the dice...\n";
+    cout << "Rolling the dice...                          \n";
     dice_number = (rand() % 6) + 1;
     display_dice_face(dice_number);
     this_thread::sleep_for(chrono::milliseconds(200));
@@ -1308,14 +1325,14 @@ int dice_roller() {
 
   for(int i = 0; i < 3; i++){
     gotoxy(65,12);
-    cout << "Rolling the dice...\n";
+    cout << "Rolling the dice...                          \n";
     dice_number = (rand() % 6) + 1;
     display_dice_face(dice_number);
     this_thread::sleep_for(chrono::milliseconds(500));
   }
   
-  gotoxy(65,12);
-  cout << "Final Dice Roll 🏁: \n";
+  gotoxy(65,12);  
+  cout << "Final Dice Roll 🏁:                            \n";
   display_dice_face(dice_number);
   gotoxy(65,19);
   cout << "You got 🎲 " << dice_number << endl;
