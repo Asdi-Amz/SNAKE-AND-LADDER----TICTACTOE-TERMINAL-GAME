@@ -1213,16 +1213,19 @@ void snake_and_ladder_game() {
           }
 
           if(choosen_skill == 0){
+            clear_screen();
+            cout << "💉IMMUNITY💉" << endl;
+            cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬\n";
+            cout <<player_names[i] << player_avatars[i] <<  " choose immunity \nPerks: Immune to Snake\nPower Curse: Immune to ladder\n";
             is_snake_immune[i] = true;
+            terminal_pause("");
           }else if(choosen_skill == 1){
-            
+
           }else if(choosen_skill == 2){
 
           }else if(choosen_skill == 3){
 
           }else if(choosen_skill == 4){
-
-          }else if(choosen_skill == 5){
 
           }
           
