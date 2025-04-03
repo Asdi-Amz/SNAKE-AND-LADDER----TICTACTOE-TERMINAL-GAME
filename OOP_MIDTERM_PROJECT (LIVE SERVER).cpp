@@ -41,6 +41,9 @@ void displaySnakeLadderTitle();
 void arrow_options_animation(const vector<string> &options, int selected);
 int display_options(const vector<string> &options, const string &title);
 
+void arrow_options_animation(const vector<string> &options, int selected, int x, int y);
+int display_options(const vector<string> &options, const string &title, int x, int y);
+
 // Tic-Tac-Toe functions
 void tictactoe_game_menu();
 void tictactoe_game(bool vsAI = false, bool hardMode = false);
@@ -62,7 +65,7 @@ void print_table_boarder();
 void print_snake_and_ladder_board(string board_tile[], int difficulty, string player_avatars[], int player_tile_placement[], int total_players);
 int dice_roller();
 void display_dice_face(int dice_number);
-int player_tile_placement_checker(int player_tile_placement, int difficulty);
+int player_tile_placement_checker(int player_tile_placement, int difficulty, bool is_immune);
 void snake_and_ladder_how_to_play();
 void snake_and_ladder_developer_section();
 
@@ -95,7 +98,7 @@ int main()
 #endif
   srand(time(0)); // Add this line for random number generation
   cursor_hide();
-  vector<string> game_options = {" Tictactoe ❌🔵", " Snake and Ladder 🪜🐍"};
+  vector<string> game_options = {"Tictactoe ❌🔵", "Snake and Ladder 🪜🐍"};
   
   while (true)
   {
@@ -246,16 +249,14 @@ void cursor_show()
 
 void terminal_pause(const string &prompt)
 {
-  cout << prompt;
-  cin.clear();
-  cin.get();
+  system("pause");
 }
 
 void arrow_options_animation(const vector<string> &options, int selected)
 {
   for (size_t i = 0; i < options.size(); i++)
   {
-    cout << (i == selected ? "➡️" : " ") << options[i] << " " << endl;
+    cout << (i == selected ? "➡️" : " ") << " " << options[i] << " " << endl;
   }
 }
 
@@ -277,6 +278,70 @@ int display_options(const vector<string> &options, const string &title)
 
     gotoxy(0,4);     
     arrow_options_animation(options, selected);
+    key = getch();
+
+#ifdef _WIN32
+    if (key == 0 || key == 0xE0)
+    {
+      key = getch();
+      if (key == 72)
+      { // Up arrow
+        selected = (selected - 1 + options.size()) % options.size();
+      }
+      else if (key == 80)
+      { // Down arrow
+        selected = (selected + 1) % options.size();
+      }
+    }
+#else
+    if (key == 27 && getch() == 91)
+    {
+      key = getch();
+      if (key == 65)
+      { // Up arrow
+        selected = (selected - 1 + options.size()) % options.size();
+      }
+      else if (key == 66)
+      { // Down arrow
+        selected = (selected + 1) % options.size();
+      }
+    }
+#endif
+    else if (key == '\r' || key == '\n')
+    {
+      clear_screen();
+      break;
+    }
+  }
+
+  return selected;
+}
+
+void arrow_options_animation(const vector<string> &options, int selected, int x, int y){
+  for (int i = 0; i < options.size(); i++)
+  {
+    gotoxy(x, y + 4 + i);
+    cout << (i == selected ? " ➡️" : "  ") << options[i] << "  " << endl;
+  }
+}
+int display_options(const vector<string> &options, const string &title, int x, int y){
+  int selected = 0;
+  int key;
+
+  while (true)
+  {
+    cursor_hide();
+
+    // Print title with border
+    int title_length = title.length();
+    gotoxy(x,y);
+    cout << string(title_length + 16, '*') << "\n";
+    gotoxy(x,y + 1);
+    cout << string(8, ' ') << title << "\n";
+    gotoxy(x,y+ 2);
+    cout << string(title_length + 16, '*') << "\n\n";
+   
+    arrow_options_animation(options, selected, x , y);
     key = getch();
 
 #ifdef _WIN32
@@ -341,9 +406,9 @@ void tictactoe_game_menu()
     {
     case 0:
     {
-      vector<string> mode_options = {" Player vs Player 👥",
-                                     " Player vs AI 🤖 (Easy)",
-                                     " Player vs AI 🤖 (Hard)"};
+      vector<string> mode_options = {"Player vs Player 👥",
+                                     "Player vs AI 🤖 (Easy)",
+                                     "Player vs AI 🤖 (Hard)"};
 
       int mode_choice = display_options(mode_options, "Select Game Mode");
 
@@ -1019,6 +1084,17 @@ void snake_and_ladder_game() {
   bool player_wins;
   char player_press;
   int player_tile_placement[6] = {0};
+  bool is_snake_immune[6] = {false};
+  bool is_player_swap[6] = {false};
+  bool is_additional_dice_roll[6] = {false};
+  bool is_teleport[6] = {false};
+  bool is_earthquake[6] = {false};
+  bool is_level_25[6] = {false};
+  bool is_level_50[6] = {false};
+  bool is_level_75[6] = {false};
+  string skill_name[5] = {"💉Immunity💉", "🔄Player Swap🔄", "🎲Additional Dice Roll🎲", "🚀Player Teleport🚀", "🪨Earthquake🪨"};
+
+  string skill_emoji[5] = {"💉", "🔄", "🎲", "🚀", "🪨"};
   
   do{
     player_wins = false;
@@ -1061,19 +1137,97 @@ void snake_and_ladder_game() {
         clear_screen();
         cout << player_names[i] << player_avatars[i] << endl;
         cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
-        cout << "OH NO YOU GOT BITTEN BY A SNAKE!!! 🤢\n";
-        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Bitten by SNAKE🐍: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty) << endl;
+
+        if(is_snake_immune[i]){
+          cout << "You are immune to snake🛡️" << endl;
+          cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Bitten by SNAKE🐍: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
+        }else{
+          cout << "OH NO YOU GOT BITTEN BY A SNAKE!!! 🤢\n";
+          cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Bitten by SNAKE🐍: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
+        }
+
+        
+        
         terminal_pause("\nPress ENTER to continue...");
       }else if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🪜"){
         clear_screen();
         cout << player_names[i] << player_avatars[i] << endl;
         cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
-        cout << "YOU'RE LUCKY YOU FOUND A LADDER!!! 🤑\n";
-        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty) << endl;
-        terminal_pause("\nPress ENTER to continue...");
+
+        if(is_snake_immune[i]){
+          cout << "You are immune to ladder🛡️" << endl;
+          cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
+        }else{
+          cout << "YOU'RE LUCKY YOU FOUND A LADDER!!! 🤑\n";
+          cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
+          terminal_pause("\nPress ENTER to continue...");
+        }
+        
       }
 
-      player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty);
+      player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]);
+
+      if((player_tile_placement[i] > 25) && (is_level_25[i] == false)){
+        clear_screen();
+        print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
+        is_level_25[i] = true;
+        
+        if(is_level_25[i]){
+          int skill_option_1, skill_option_2, skill_option_3;
+          gotoxy(65,12);
+          cout << "You reached tile 25! Claim a one-time skill reward!";
+          gotoxy(65, 14);
+          terminal_pause("");
+          gotoxy(65, 14);
+          cout << "               Random Skill Generator                " << endl;
+          
+          for(int j = 0; j < 8; j++){
+            do{
+              skill_option_1 = rand() % 5;
+              skill_option_2 = rand() % 5;
+              skill_option_3 = rand() % 5;
+            }while(skill_option_1 == skill_option_2 || skill_option_1 == skill_option_3 || skill_option_2 == skill_option_3);
+
+            gotoxy(87,15);
+            cout << skill_emoji[skill_option_1]  << "  " << skill_emoji[skill_option_2]  << "  " << skill_emoji[skill_option_3];
+            delay(700);
+          }
+          gotoxy(63, 17);
+          terminal_pause("");
+          vector<string> random_skill_options = {skill_name[skill_option_1], skill_name[skill_option_2], skill_name[skill_option_3]};
+          
+          int choosen_skill = display_options(random_skill_options, "Choose One Skill", 63, 17);
+
+          switch(choosen_skill){
+            case 0:
+                  choosen_skill = skill_option_1;
+                  break;
+
+            case 1: 
+                  choosen_skill = skill_option_1;
+                  break;
+
+            case 2:
+                  choosen_skill = skill_option_3;
+                  break;
+          }
+
+          if(choosen_skill == 0){
+            is_snake_immune[i] = true;
+          }else if(choosen_skill == 1){
+            
+          }else if(choosen_skill == 2){
+
+          }else if(choosen_skill == 3){
+
+          }else if(choosen_skill == 4){
+
+          }else if(choosen_skill == 5){
+
+          }
+          
+        }
+      }
 
 
       if(player_tile_placement[i] == 100){
@@ -1095,18 +1249,18 @@ void snake_and_ladder_game() {
         cout << player_names[i] << player_avatars[i] << endl;
         cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
         cout << "OH NO YOU GOT BITTEN BY A SNAKE!!! 🤢\n";
-        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Bitten by SNAKE🐍: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty) << endl;
+        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Bitten by SNAKE🐍: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
         terminal_pause("\nPress ENTER to continue...");
       }else if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🪜"){
         clear_screen();
         cout << player_names[i] << player_avatars[i] << endl;
         cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
         cout << "YOU'RE LUCKY YOU FOUND A LADDER!!! 🤑\n";
-        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty) << endl;
+        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
         terminal_pause("\nPress ENTER to continue...");
       }
 
-      player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty);
+      player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune);
 
     }
 
@@ -1317,7 +1471,7 @@ int dice_roller() {
 
   for(int i = 0; i < 10; i++){
     gotoxy(65,12);
-    cout << "Rolling the dice...                          \n";
+    cout << "Rolling the dice...                               \n";
     dice_number = (rand() % 6) + 1;
     display_dice_face(dice_number);
     this_thread::sleep_for(chrono::milliseconds(200));
@@ -1325,14 +1479,14 @@ int dice_roller() {
 
   for(int i = 0; i < 3; i++){
     gotoxy(65,12);
-    cout << "Rolling the dice...                          \n";
+    cout << "Rolling the dice...                               \n";
     dice_number = (rand() % 6) + 1;
     display_dice_face(dice_number);
     this_thread::sleep_for(chrono::milliseconds(500));
   }
   
   gotoxy(65,12);  
-  cout << "Final Dice Roll 🏁:                            \n";
+  cout << "Final Dice Roll 🏁:                                 \n";
   display_dice_face(dice_number);
   gotoxy(65,19);
   cout << "You got 🎲 " << dice_number << endl;
@@ -1340,49 +1494,51 @@ int dice_roller() {
 }
 void display_dice_face(int dice_number) {
     string dice_faces[] = {
-        "\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t|     |\n"
-        "\t\t\t\t\t\t\t\t\t\t|  •  |\n"
-        "\t\t\t\t\t\t\t\t\t\t|     |\n"
-        "\t\t\t\t\t\t\t\t\t\t ----- \n", 
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t\t|     |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t|  •  |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t|     |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n", 
     
-        "\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t| •   |\n"
-        "\t\t\t\t\t\t\t\t\t\t|     |\n"
-        "\t\t\t\t\t\t\t\t\t\t|   • |\n"
-        "\t\t\t\t\t\t\t\t\t\t ----- \n", 
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t\t| •   |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t|     |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t|   • |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n", 
     
-        "\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t| •   |\n"
-        "\t\t\t\t\t\t\t\t\t\t|  •  |\n"
-        "\t\t\t\t\t\t\t\t\t\t|   • |\n"
-        "\t\t\t\t\t\t\t\t\t\t ----- \n", 
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t\t| •   |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t|  •  |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t|   • |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n", 
     
-        "\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t|     |\n"
-        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t ----- \n", 
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t|     |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n", 
     
-        "\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t|  •  |\n"
-        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t ----- \n", 
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t|  •  |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n", 
     
-        "\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
+        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
+        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
 
     };
 
     cout << dice_faces[dice_number - 1];
 }
 
-int player_tile_placement_checker(int player_tile_placement, int difficulty){
-  if(difficulty == 0){
+int player_tile_placement_checker(int player_tile_placement, int difficulty, bool is_immune){
+  if(is_immune){
+    return player_tile_placement;
+  }else if(difficulty == 0){
       if(player_tile_placement == 18){
           return 23;
       }else if(player_tile_placement == 24){
