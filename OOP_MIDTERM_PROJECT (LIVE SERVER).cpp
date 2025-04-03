@@ -1092,9 +1092,9 @@ void snake_and_ladder_game() {
   bool is_level_25[6] = {false};
   bool is_level_50[6] = {false};
   bool is_level_75[6] = {false};
-  string skill_name[5] = {"💉Immunity💉", "🔄Player Swap🔄", "🎲Additional Dice Roll🎲", "🚀Player Teleport🚀", "🪨Earthquake🪨"};
+  string skill_name[4] = {"💉Immunity💉", "🔄Player Swap🔄", "🎲Additional Dice Roll🎲", "🚀Player Teleport🚀"};
 
-  string skill_emoji[5] = {"💉", "🔄", "🎲", "🚀", "🪨"};
+  string skill_emoji[4] = {"💉", "🔄", "🎲", "🚀"};
   
   do{
     player_wins = false;
@@ -1172,18 +1172,18 @@ void snake_and_ladder_game() {
         print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
         
 
-        if(player_tile_placement[i] >= 25){
+        if(player_tile_placement[i] >= 25 && player_tile_placement[i] < 50){
           is_level_25[i] = true;
           gotoxy(65,12);
           cout << "You reached tile 25! Claim a one-time skill reward!";
-        }else if(player_tile_placement[i] >= 50){
+        }else if(player_tile_placement[i] >= 50 && player_tile_placement[i] < 75){
           is_level_50[i] = true;
           gotoxy(65,12);
           cout << "You reached tile 50! Claim a one-time skill reward!";
         }else if(player_tile_placement[i] >= 75){
           is_level_75[i] = true;
           gotoxy(65,12);
-          cout << "You reached tile 75! Claim a one-time skill reward!";
+          cout << player_names[i] << player_avatars[i] << " reached tile 75! Claim a one-time skill reward!";
         }
         
         if(is_level_25[i] || is_level_50[i] || is_level_75){
@@ -1196,9 +1196,9 @@ void snake_and_ladder_game() {
           
           for(int j = 0; j < 8; j++){
             do{
-              skill_option_1 = rand() % 5;
-              skill_option_2 = rand() % 5;
-              skill_option_3 = rand() % 5;
+              skill_option_1 = rand() % 4;
+              skill_option_2 = rand() % 4;
+              skill_option_3 = rand() % 4;
             }while(skill_option_1 == skill_option_2 || skill_option_1 == skill_option_3 || skill_option_2 == skill_option_3);
 
             gotoxy(87,15);
@@ -1290,7 +1290,6 @@ void snake_and_ladder_game() {
             terminal_pause("");
 
           }else if(choosen_skill == 3){
-            srand(time(0));
             clear_screen();
             cout << "PLAYER TELEPORT: " <<  player_names[i] << player_avatars[i] <<endl;
             cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n";
@@ -1300,7 +1299,7 @@ void snake_and_ladder_game() {
             int random_number;
             recent_tile_placement = player_tile_placement[i];
 
-            for(int i = 0; i < 6; i++){
+            for(int j = 0; j < 6; j++){
               gotoxy(0, 5);
               number_to_teleport = (player_tile_placement[i] - 5) + (rand() % 20);
               cout << "TILE NUMBER TO TELEPORT: " << number_to_teleport;
@@ -1310,14 +1309,13 @@ void snake_and_ladder_game() {
             player_tile_placement[i] = number_to_teleport;
 
             gotoxy(0,7);
-            cout << "    🎲 Tile After Dice Roll: " << player_tile_placement[i] << endl;
+            cout << "    🚀 Tile After Teleport: " << player_tile_placement[i] << endl;
             
             gotoxy(0,8);
             cout << "    🔹 Recent Tile : " << recent_tile_placement;
-            
+            gotoxy(0,10);
+            terminal_pause("");
 
-
-          }else if(choosen_skill == 4){
 
           }
           
@@ -1343,19 +1341,35 @@ void snake_and_ladder_game() {
         clear_screen();
         cout << player_names[i] << player_avatars[i] << endl;
         cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
-        cout << "OH NO YOU GOT BITTEN BY A SNAKE!!! 🤢\n";
-        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Bitten by SNAKE🐍: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
+
+        if(is_snake_immune[i]){
+          cout << "You are immune to snake🛡️" << endl;
+          cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Bitten by SNAKE🐍: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
+        }else{
+          cout << "OH NO YOU GOT BITTEN BY A SNAKE!!! 🤢\n";
+          cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Bitten by SNAKE🐍: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
+        }
+
+        
+        
         terminal_pause("\nPress ENTER to continue...");
       }else if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🪜"){
         clear_screen();
         cout << player_names[i] << player_avatars[i] << endl;
         cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"; 
-        cout << "YOU'RE LUCKY YOU FOUND A LADDER!!! 🤑\n";
-        cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
-        terminal_pause("\nPress ENTER to continue...");
+
+        if(is_snake_immune[i]){
+          cout << "You are immune to ladder🛡️" << endl;
+          cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
+        }else{
+          cout << "YOU'RE LUCKY YOU FOUND A LADDER!!! 🤑\n";
+          cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
+          terminal_pause("\nPress ENTER to continue...");
+        }
+        
       }
 
-      player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune);
+      player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]);
 
     }
 
