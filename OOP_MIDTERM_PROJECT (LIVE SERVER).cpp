@@ -1167,15 +1167,28 @@ void snake_and_ladder_game() {
 
       player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]);
 
-      if((player_tile_placement[i] > 25) && (is_level_25[i] == false)){
+      if(((player_tile_placement[i] > 25) && is_level_25[i] == false) || ((player_tile_placement[i] > 50) && is_level_50[i] == false) || ((player_tile_placement[i] > 75) && is_level_75[i] == false)){
         clear_screen();
         print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
-        is_level_25[i] = true;
         
-        if(is_level_25[i]){
-          int skill_option_1, skill_option_2, skill_option_3;
+
+        if(player_tile_placement[i] >= 25){
+          is_level_25[i] = true;
           gotoxy(65,12);
           cout << "You reached tile 25! Claim a one-time skill reward!";
+        }else if(player_tile_placement[i] >= 50){
+          is_level_50[i] = true;
+          gotoxy(65,12);
+          cout << "You reached tile 50! Claim a one-time skill reward!";
+        }else if(player_tile_placement[i] >= 75){
+          is_level_75[i] = true;
+          gotoxy(65,12);
+          cout << "You reached tile 75! Claim a one-time skill reward!";
+        }
+        
+        if(is_level_25[i] || is_level_50[i] || is_level_75){
+          int skill_option_1, skill_option_2, skill_option_3;
+          
           gotoxy(65, 14);
           terminal_pause("");
           gotoxy(65, 14);
@@ -1204,7 +1217,7 @@ void snake_and_ladder_game() {
                   break;
 
             case 1: 
-                  choosen_skill = skill_option_1;
+                  choosen_skill = skill_option_2;
                   break;
 
             case 2:
@@ -1220,10 +1233,89 @@ void snake_and_ladder_game() {
             is_snake_immune[i] = true;
             terminal_pause("");
           }else if(choosen_skill == 1){
+            vector<string> player_to_swap_options;
+
+            for(int j = 0; j < (number_of_ai_players + number_of_players); j++){
+              if(i == j){
+                continue;
+              }
+
+              player_to_swap_options.push_back(player_avatars[j]);
+            }
+
+            int choosen_player_to_swap = display_options(player_to_swap_options, "CHOOSE PLAYER TO SWAP", 63, 17);
+
+            if(choosen_player_to_swap >= i){
+              choosen_player_to_swap++;
+            }
+
+            int temp;
+
+            temp = player_tile_placement[i];
+            player_tile_placement[i] = player_tile_placement[choosen_player_to_swap];
+            player_tile_placement[choosen_player_to_swap] = temp;
+
+            
+            clear_screen();
+            print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
+            cout << "🔄Player Swap🔄" << endl;
+            cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n";
+            cout << "Perks: Can SWAP with the any player\n";
+            cout << "Power Curse: If you are the leading player\n\n";
+
+            cout << player_names[i] << player_avatars[i] << endl;
+            cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n";
+            cout << "    🔹 Recent Tile : " << temp;
+            cout << "    🔄 Tile After Swap: " << player_tile_placement[i] << endl;
+            terminal_pause("");
 
           }else if(choosen_skill == 2){
+            clear_screen();
+            print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
+
+            gotoxy(63,10);
+            cout << "🎲ADDITIONAL DICE ROLL🎲" << endl;
+            gotoxy(63,11);
+            cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n";
+            recent_tile_placement = player_tile_placement[i];
+
+            player_tile_placement[i] += dice_roller();
+            gotoxy(63,22);
+            cout << player_names[i] << " " << player_avatars[i] << ": ";
+            gotoxy(68,23);
+            cout << "    🔹 Recent Tile : " << recent_tile_placement;
+            gotoxy(68,24); 
+            cout << "    🎲 Tile After Dice Roll: " << player_tile_placement[i] << endl;
+            gotoxy(68,26);
+            terminal_pause("");
 
           }else if(choosen_skill == 3){
+            srand(time(0));
+            clear_screen();
+            cout << "PLAYER TELEPORT: " <<  player_names[i] << player_avatars[i] <<endl;
+            cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n";
+            terminal_pause("");
+
+            int number_to_teleport;
+            int random_number;
+            recent_tile_placement = player_tile_placement[i];
+
+            for(int i = 0; i < 6; i++){
+              gotoxy(0, 5);
+              number_to_teleport = (player_tile_placement[i] - 5) + (rand() % 20);
+              cout << "TILE NUMBER TO TELEPORT: " << number_to_teleport;
+              delay(700);
+            }
+
+            player_tile_placement[i] = number_to_teleport;
+
+            gotoxy(0,7);
+            cout << "    🎲 Tile After Dice Roll: " << player_tile_placement[i] << endl;
+            
+            gotoxy(0,8);
+            cout << "    🔹 Recent Tile : " << recent_tile_placement;
+            
+
 
           }else if(choosen_skill == 4){
 
@@ -1480,7 +1572,7 @@ int dice_roller() {
     this_thread::sleep_for(chrono::milliseconds(200));
   }
 
-  for(int i = 0; i < 3; i++){
+  for(int i = 0; i < 3; i++){ 
     gotoxy(65,12);
     cout << "Rolling the dice...                               \n";
     dice_number = (rand() % 6) + 1;
