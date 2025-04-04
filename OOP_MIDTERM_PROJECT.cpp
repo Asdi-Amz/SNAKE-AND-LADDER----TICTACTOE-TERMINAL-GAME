@@ -8,6 +8,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <cmath>
 
 #ifdef _WIN32
 #include <conio.h>
@@ -23,6 +24,12 @@ using namespace std;
 // Game constants
 const int TTT_BOARD_SIZE = 9;
 const int WIN_SCORE = 3;
+string space = "           "; // 14 spaces
+
+const string RED_BG = "\033[41m";
+const string WHITE = "\033[37m";
+const string BLACK = "\033[30m";
+const string RESET = "\033[0m";
 
 // Function prototypes
 void clear_input_buffer();
@@ -67,7 +74,9 @@ int dice_roller();
 void display_dice_face(int dice_number);
 int player_tile_placement_checker(int player_tile_placement, int difficulty, bool is_immune);
 void snake_and_ladder_how_to_play();
+void displayThankYou();
 void snake_and_ladder_developer_section();
+void print_big_DEVELOPERS();
 
 void delay(int milliseconds)
 {
@@ -434,7 +443,7 @@ void tictactoe_game_menu()
       break;
     case 3:
       clear_screen();
-      cout << "\n\n\tTHANK YOU FOR PLAYING OUR GAME 🙏💖" << endl;
+      displayThankYou();
       terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...");
       clear_screen();
       return;
@@ -715,16 +724,77 @@ void print_tictactoe_board(const string board_mark[], int player1_score,
 {
   clear_screen();
 
-  cout << "   " << board_mark[0] << " | " << board_mark[1] << " | "
-       << board_mark[2] << "\t\t\t===========================\n"
-       << "  ----+----+----" << "\t\t      🔢 SCORE BOARD 🔢\n"
-       << "   " << board_mark[3] << " | " << board_mark[4] << " | "
-       << board_mark[5] << "\t\t\t===========================\n"
-       << "  ----+----+----" << "\t\t" << player1_name << ": " << player1_score
-       << "\n"
-       << "   " << board_mark[6] << " | " << board_mark[7] << " | "
-       << board_mark[8] << "\t\t\t" << player2_name << ": " << player2_score
-       << "\n\n";
+  // Gradient color function
+  auto get_color = [](int step, int total_steps)
+  {
+    float ratio = static_cast<float>(step) / total_steps;
+    int r = static_cast<int>(255 * (1 - ratio));
+    int g = static_cast<int>(255 * ratio);
+    int b = static_cast<int>(128 + 127 * sin(3.14159 * ratio));
+    return "\033[38;2;" + to_string(r) + ";" + to_string(g) + ";" +
+           to_string(b) + "m";
+  };
+
+  // Board template with gradient
+  const vector<string> board_lines = {
+      "╔═══════╦═══════╦═══════╗",
+      "║       ║       ║       ║",
+      "║  " + board_mark[0] + "   ║  " + board_mark[1] + "   ║  " +
+          board_mark[2] + "   ║",
+      "║       ║       ║       ║",
+      "╠═══════╬═══════╬═══════╣",
+      "║       ║       ║       ║",
+      "║  " + board_mark[3] + "   ║  " + board_mark[4] + "   ║  " +
+          board_mark[5] + "   ║",
+      "║       ║       ║       ║",
+      "╠═══════╬═══════╬═══════╣",
+      "║       ║       ║       ║",
+      "║  " + board_mark[6] + "   ║  " + board_mark[7] + "   ║  " +
+          board_mark[8] + "   ║",
+      "║       ║       ║       ║",
+      "╚═══════╩═══════╩═══════╝"};
+
+  // Scoreboard template
+  const vector<string> score_lines = {
+      "╔═════════════════════════╗",
+      "║       SCORE BOARD       ║",
+      "╠═════════════════════════╣",
+      "║ " + player1_name + ": " + to_string(player1_score) +
+          string(20 - player1_name.length() - to_string(player1_score).length(),
+                 ' ') +
+          "  ║",
+      "║ " + player2_name + ": " + to_string(player2_score) +
+          string(20 - player2_name.length() - to_string(player2_score).length(),
+                 ' ') +
+          "  ║",
+      "╚═════════════════════════╝"};
+
+  // Print board and scoreboard side by side
+  size_t max_lines = max(board_lines.size(), score_lines.size());
+  for (size_t i = 0; i < max_lines; i++)
+  {
+    // Print board line (with gradient)
+    if (i < board_lines.size())
+    {
+      cout << get_color(i, max_lines) << board_lines[i] << "\033[0m";
+    }
+    else
+    {
+      cout << string(board_lines[0].length(), ' '); // Maintain spacing
+    }
+
+    // Add spacing between board and scoreboard
+    cout << "   ";
+
+    // Print scoreboard line (with gradient)
+    if (i < score_lines.size())
+    {
+      cout << get_color(i, max_lines) << score_lines[i] << "\033[0m";
+    }
+
+    cout << endl;
+  }
+  cout << endl;
 }
 
 // AI functions implementation
@@ -961,7 +1031,7 @@ void snake_and_ladder_game_menu()
     break;
   case 3:
     clear_screen();
-    cout << "\n\n\tTHANK YOU FOR PLAYING OUR GAME 🙏💖" << endl;
+    displayThankYou();
     terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...");
     clear_screen();
     break;
@@ -1602,46 +1672,46 @@ int dice_roller() {
   return dice_number;
 }
 void display_dice_face(int dice_number) {
-    string dice_faces[] = {
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t\t|     |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t|  •  |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t|     |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n", 
-    
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t\t| •   |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t|     |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t|   • |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n", 
-    
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t\t| •   |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t|  •  |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t|   • |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n", 
-    
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t|     |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n", 
-    
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t|  •  |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n", 
-    
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
-        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t| • • |\n"
-        "\t\t\t\t\t\t\t\t\t\t\t ----- \n"
+  string dice_faces[] = {
+      "\t\t\t\t\t\t\t\t\t\t" + RED_BG + WHITE + "┌─────────┐\n" +
+          "\t\t\t\t\t\t\t\t\t\t│         │\n" + "\t\t\t\t\t\t\t\t\t\t│    " +
+          WHITE + "●" + WHITE + "    │\n" +
+          "\t\t\t\t\t\t\t\t\t\t│         │\n" +
+          "\t\t\t\t\t\t\t\t\t\t└─────────┘" + RESET,
 
-    };
+      "\t\t\t\t\t\t\t\t\t\t" + RED_BG + WHITE + "┌─────────┐\n" +
+          "\t\t\t\t\t\t\t\t\t\t│ " + WHITE + "●" + WHITE + "       │\n" +
+          "\t\t\t\t\t\t\t\t\t\t│         │\n" + "\t\t\t\t\t\t\t\t\t\t│       " +
+          WHITE + "●" + WHITE + " │\n" + "\t\t\t\t\t\t\t\t\t\t└─────────┘" +
+          RESET,
 
-    cout << dice_faces[dice_number - 1];
+      "\t\t\t\t\t\t\t\t\t\t" + RED_BG + WHITE + "┌─────────┐\n" +
+          "\t\t\t\t\t\t\t\t\t\t│ " + WHITE + "●" + WHITE + "       │\n" +
+          "\t\t\t\t\t\t\t\t\t\t│    " + WHITE + "●" + WHITE + "    │\n" +
+          "\t\t\t\t\t\t\t\t\t\t│       " + WHITE + "●" + WHITE + " │\n" +
+          "\t\t\t\t\t\t\t\t\t\t└─────────┘" + RESET,
+
+      "\t\t\t\t\t\t\t\t\t\t" + RED_BG + WHITE + "┌─────────┐\n" +
+          "\t\t\t\t\t\t\t\t\t\t│ " + WHITE + "●" + WHITE + "     " + WHITE +
+          "●" + WHITE + " │\n" + "\t\t\t\t\t\t\t\t\t\t│         │\n" +
+          "\t\t\t\t\t\t\t\t\t\t│ " + WHITE + "●" + WHITE + "     " + WHITE +
+          "●" + WHITE + " │\n" + "\t\t\t\t\t\t\t\t\t\t└─────────┘" + RESET,
+
+      "\t\t\t\t\t\t\t\t\t\t" + RED_BG + WHITE + "┌─────────┐\n" +
+          "\t\t\t\t\t\t\t\t\t\t│ " + WHITE + "●" + WHITE + "     " + WHITE +
+          "●" + WHITE + " │\n" + "\t\t\t\t\t\t\t\t\t\t│    " + WHITE + "●" +
+          WHITE + "    │\n" + "\t\t\t\t\t\t\t\t\t\t│ " + WHITE + "●" + WHITE +
+          "     " + WHITE + "●" + WHITE + " │\n" +
+          "\t\t\t\t\t\t\t\t\t\t└─────────┘" + RESET,
+
+      "\t\t\t\t\t\t\t\t\t\t" + RED_BG + WHITE + "┌─────────┐\n" +
+          "\t\t\t\t\t\t\t\t\t\t│ " + WHITE + "●" + WHITE + "     " + WHITE +
+          "●" + WHITE + " │\n" + "\t\t\t\t\t\t\t\t\t\t│ " + WHITE + "●" +
+          WHITE + "     " + WHITE + "●" + WHITE + " │\n" +
+          "\t\t\t\t\t\t\t\t\t\t│ " + WHITE + "●" + WHITE + "     " + WHITE +
+          "●" + WHITE + " │\n" + "\t\t\t\t\t\t\t\t\t\t└─────────┘" + RESET};
+
+  cout << dice_faces[dice_number - 1] << endl;
 }
 
 int player_tile_placement_checker(int player_tile_placement, int difficulty, bool is_immune){
@@ -1751,6 +1821,145 @@ int player_tile_placement_checker(int player_tile_placement, int difficulty, boo
 
   return player_tile_placement;
 }
+void print_big_DEVELOPERS() {
+  string developers[] = {
+      "DDDD   EEEEE  V   V  EEEEE  L       OOO   PPPP   EEEEE  RRRR    SSSS",
+      "D   D  E      V   V  E      L      O   O  P   P  E      R   R  S    ",
+      "D   D  EEEE   V   V  EEEE   L      O   O  PPPP   EEEE   RRRR    SSS ",
+      "D   D  E      V   V  E      L      O   O  P      E      R  R      S  ",
+      "DDDD   EEEEE   VVV   EEEEE  LLLLL   OOO   P      EEEEE  R   R   SSSS",
+  };
 
-void snake_and_ladder_how_to_play() {}
-void snake_and_ladder_developer_section() {}
+}
+
+void snake_and_ladder_how_to_play() {
+  clear_screen();
+  cout <<"OBJECTIVE OF THE GAME: \n\n";
+    cout << "The objective of the game is to be the first player to reach the\n"
+      "end of the board (square 100) by rolling a die\n and moving "
+      "your game piece accordingly.\n\n";
+
+cout << "BASIC SET-UP:\n\n";
+    cout << "1. The game is played on a board with numbered squares from 1 to "
+      "100.\n";
+    cout << "2. Each player has a game piece that starts at square 1.\n";
+    cout << "3. Players take turns rolling a die to determine how many squares "
+      "to move.\n\n";
+
+cout << "GAME PLAY:\n\n";
+    cout << "1. On your turn, roll the die and move your game piece forward the "
+      "number of squares rolled.\n";
+    cout << "2. If you land on a square with the bottom of a ladder, you can "
+      "climb up to the top of the ladder.\n";
+    cout << "3. If you land on a square with the head of a snake, you must slide "
+      "down to the tail of the snake.\n";
+    cout << "4. The first player to reach square 100 wins the game.\n\n";
+
+cout << "WINNING THE GAME: \n\n";
+    cout << "1. The first player to reach square 100 wins the game.\n";
+    cout << "2. If a player rolls a number that would take them past square "
+      "100,\nthey must stay on their current square until they roll the exact number to land on the square 100.\n\n";
+cout << "ADDITIONAL RULES:\n\n";
+    cout << "**If you reach 25 tiles or up, 50 tiles or up and 75 tiles or up, you can choose one skill "
+            "out of 3 randomized options**\n\n";
+
+cout << "SKILLS:\n\n";
+
+cout << "IMMUNITY:\n"
+"Effective: Whole rounds\n"
+"perks: Immune to snake\n"
+"cons: immune also to ladder\n\n";
+
+cout << "PLAYER SWAP:\n"
+"Effective: One time use.\n"
+"perks: you can swap with any player you want.\n"
+"cons: if you are the leading player.\n\n";
+
+//cout << "EARTHQUAKE:\n"
+//"Effective: One time use\n"
+//"perks: you can force a player to step down with a random number of tiles.\n"
+//"cons: you're going also to step down 1/4 to how many tiles the player you chose to step down.\n\n";
+
+cout << "PLAYER TELEPORT(Self-cast):\n"
+"Effective: One time use\n"
+"Perks: you can step up with 10 tiles.\n"
+"Cons: There's also a chance you can step down 5 tiles.\n";
+    
+    terminal_pause("Press ENTER to go back to main menu...");
+    clear_screen();
+    snake_and_ladder_game_menu();
+    return;
+}
+void snake_and_ladder_developer_section() {
+  clear_screen();
+
+   //calling the function to print the DEVELOPERS in big font
+  print_big_DEVELOPERS();
+  cout <<"\n\n";
+  //Print the developer names
+cout << "Andrie Timothy R. Cabuguas\nStatus: Double\n";
+cout << "- Talk is cheap. Show me the code.\n\n";
+  cout << "Asdi V. Amamence\nStatus: Double\n";
+cout << "- Computers are fast; developers keep them slow.\n\n";
+  cout << "John Kennith A. Madera\nStatus: Importante Buhi\n";
+cout << "- It's not a BUG, it's a FEATURE.\n\n";
+  cout << "Krisna Hojland\nStatus: Double\n";
+cout << "- If debugging is the process of removing bugs, then programming must be the process of putting them in.\n";
+
+terminal_pause("\nPress ENTER to go back to main menu...");
+clear_screen();
+snake_and_ladder_game_menu();
+return;
+}
+
+void displayThankYou()
+{
+  cout << endl;
+  string thankYouArt[] = {"████████╗██╗  ██╗ █████╗ ███╗   ██╗██╗  ██╗    ██╗  "
+                          " ██╗ ██████╗ ██╗   ██╗",
+                          "╚══██╔══╝██║  ██║██╔══██╗████╗  ██║██║ ██╔╝    ╚██╗ "
+                          "██╔╝██╔═══██╗██║   ██║",
+                          "   ██║   ███████║███████║██╔██╗ ██║█████╔╝      "
+                          "╚████╔╝ ██║   ██║██║   ██║",
+                          "   ██║   ██╔══██║██╔══██║██║╚██╗██║██╔═██╗       "
+                          "╚██╔╝  ██║   ██║██║   ██║",
+                          "   ██║   ██║  ██║██║  ██║██║ ╚████║██║  ██╗       "
+                          "██║   ╚██████╔╝╚██████╔╝",
+                          "   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝       "
+                          "╚═╝    ╚═════╝  ╚═════╝ "};
+
+  for (size_t i = 0; i < 6; ++i)
+  {
+    float ratio = static_cast<float>(i) / 5.0f;
+    string color;
+    switch (i)
+    {
+    case 0:
+      color =
+          interpolateColor(75, 0, 130, 255, 0, 255, ratio); // Purple → Magenta
+      break;
+    case 1:
+      color = interpolateColor(255, 0, 255, 255, 20, 147,
+                               ratio); // Magenta → Hot Pink
+      break;
+    case 2:
+      color = interpolateColor(255, 20, 147, 255, 182, 193,
+                               ratio); // Hot Pink → Light Pink
+      break;
+    case 3:
+      color = interpolateColor(255, 182, 193, 255, 218, 185,
+                               ratio); // Light Pink → Peach
+      break;
+    case 4:
+      color =
+          interpolateColor(255, 218, 185, 255, 165, 0, ratio); // Peach → Orange
+      break;
+    case 5:
+      color = interpolateColor(255, 165, 0, 255, 69, 0,
+                               ratio); // Orange → Deep Orange
+      break;
+    }
+    cout << color << thankYouArt[i] << "\033[0m" << endl;
+  }
+  cout << endl;
+}
