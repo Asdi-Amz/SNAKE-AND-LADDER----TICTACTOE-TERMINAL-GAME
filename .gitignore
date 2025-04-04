@@ -1,3 +1,6 @@
 *.exe
 .vscode/
 sample.cpp
+
+
+!OOP_MIDTERM_PROJECT.exe
