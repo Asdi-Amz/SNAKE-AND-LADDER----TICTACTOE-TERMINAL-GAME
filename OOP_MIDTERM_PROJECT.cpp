@@ -1455,7 +1455,7 @@ void snake_and_ladder_game() {
             }
         }
 
-        if((number_of_players + number_of_ai_players) >3){
+        if((number_of_players + number_of_ai_players) < 3){
           cout << "🌟🌟🌟FINALIST🌟🌟🌟" << endl;
           cout << "🥇     " << player_names[leading_player] << player_avatars[leading_player] << endl;
           cout << "🥈     " << player_names[second_leading] << player_avatars[second_leading] << endl;
