@@ -1442,7 +1442,7 @@ void snake_and_ladder_game() {
 
         leading_player = second_leading = third_leading = INT_MIN;
 
-        for (int j = 0; j < 6; j++) {
+        for (int j = 0; j < (number_of_players + number_of_ai_players); j++) {
             if (player_tile_placement[j] > leading_player) {
               third_leading = second_leading;
               second_leading = leading_player;
@@ -1455,11 +1455,17 @@ void snake_and_ladder_game() {
             }
         }
 
-
-        cout << "🌟🌟🌟FINALIST🌟🌟🌟" << endl;
-        cout << "🥇     " << player_names[leading_player] << player_avatars[leading_player] << endl;
-        cout << "🥈     " << player_names[second_leading] << player_avatars[second_leading] << endl;
-        cout << "🥉     " << player_names[third_leading] << player_avatars[third_leading] << endl;
+        if((number_of_players + number_of_ai_players) >3){
+          cout << "🌟🌟🌟FINALIST🌟🌟🌟" << endl;
+          cout << "🥇     " << player_names[leading_player] << player_avatars[leading_player] << endl;
+          cout << "🥈     " << player_names[second_leading] << player_avatars[second_leading] << endl;
+        }else{
+          cout << "🌟🌟🌟FINALIST🌟🌟🌟" << endl;
+          cout << "🥇     " << player_names[leading_player] << player_avatars[leading_player] << endl;
+          cout << "🥈     " << player_names[second_leading] << player_avatars[second_leading] << endl;
+          cout << "🥉     " << player_names[third_leading] << player_avatars[third_leading] << endl;
+        }
+        
         terminal_pause("Press ENTER to go back to main menu...");
         clear_screen();
         break;
