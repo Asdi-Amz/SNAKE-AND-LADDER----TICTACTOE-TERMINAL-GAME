@@ -1241,15 +1241,22 @@ void snake_and_ladder_game() {
         if(player_tile_placement[i] >= 25 && player_tile_placement[i] < 50){
           is_level_25[i] = true;
           gotoxy(65,12);
-          cout << player_names[i] << player_avatars[i] << " reached tile 25! Claim a one-time skill reward!" << endl;
+          cout << player_names[i] << player_avatars[i]; 
+          gotoxy(65,13);
+          cout << "You reached tile 25! Claim a one-time skill reward!\n" << endl;
         }else if(player_tile_placement[i] >= 50 && player_tile_placement[i] < 75){
           is_level_50[i] = true;
           gotoxy(65,12);
-          cout << player_names[i] << player_avatars[i] << " reached tile 50! Claim a one-time skill reward!" << endl;
+          cout << player_names[i] << player_avatars[i]; 
+          gotoxy(65,13);
+          cout << "You reached tile 50! Claim a one-time skill reward!\n" << endl;
+
         }else if(player_tile_placement[i] >= 75){
           is_level_75[i] = true;
           gotoxy(65,12);
-          cout << player_names[i] << player_avatars[i] << " reached tile 75! Claim a one-time skill reward!" << endl;
+          cout << player_names[i] << player_avatars[i]; 
+          gotoxy(65,13);
+          cout << "You reached tile 75! Claim a one-time skill reward!\n" << endl;
         }
         
         if(is_level_25[i] || is_level_50[i] || is_level_75){
