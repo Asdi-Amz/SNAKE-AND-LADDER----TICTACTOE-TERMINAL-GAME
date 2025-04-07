@@ -1155,10 +1155,6 @@ void snake_and_ladder_game() {
   char player_press;
   int player_tile_placement[6] = {0};
   bool is_snake_immune[6] = {false};
-  bool is_player_swap[6] = {false};
-  bool is_additional_dice_roll[6] = {false};
-  bool is_teleport[6] = {false};
-  bool is_earthquake[6] = {false};
   bool is_level_25[6] = {false};
   bool is_level_50[6] = {false};
   bool is_level_75[6] = {false};
@@ -1230,9 +1226,9 @@ void snake_and_ladder_game() {
         }else{
           cout << "YOU'RE LUCKY YOU FOUND A LADDER!!! 🤑\n";
           cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
-          terminal_pause("\nPress ENTER to continue...");
         }
-        
+
+        terminal_pause("\nPress ENTER to continue...");
       }
 
       player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]);
@@ -1245,15 +1241,15 @@ void snake_and_ladder_game() {
         if(player_tile_placement[i] >= 25 && player_tile_placement[i] < 50){
           is_level_25[i] = true;
           gotoxy(65,12);
-          cout << "You reached tile 25! Claim a one-time skill reward!";
+          cout << player_names[i] << player_avatars[i] << " reached tile 25! Claim a one-time skill reward!" << endl;
         }else if(player_tile_placement[i] >= 50 && player_tile_placement[i] < 75){
           is_level_50[i] = true;
           gotoxy(65,12);
-          cout << "You reached tile 50! Claim a one-time skill reward!";
+          cout << player_names[i] << player_avatars[i] << " reached tile 50! Claim a one-time skill reward!" << endl;
         }else if(player_tile_placement[i] >= 75){
           is_level_75[i] = true;
           gotoxy(65,12);
-          cout << player_names[i] << player_avatars[i] << " reached tile 75! Claim a one-time skill reward!";
+          cout << player_names[i] << player_avatars[i] << " reached tile 75! Claim a one-time skill reward!" << endl;
         }
         
         if(is_level_25[i] || is_level_50[i] || is_level_75){
@@ -1278,9 +1274,15 @@ void snake_and_ladder_game() {
           gotoxy(63, 17);
           terminal_pause("");
           vector<string> random_skill_options = {skill_name[skill_option_1], skill_name[skill_option_2], skill_name[skill_option_3]};
-          
-          int choosen_skill = display_options(random_skill_options, "Choose One Skill", 63, 17);
 
+          int choosen_skill;
+
+          if(i < number_of_players){
+            choosen_skill = display_options(random_skill_options, "Choose One Skill", 63, 17);
+          }else{
+            choosen_skill = rand() % 3;
+          }
+        
           switch(choosen_skill){
             case 0:
                   choosen_skill = skill_option_1;
@@ -1295,6 +1297,15 @@ void snake_and_ladder_game() {
                   break;
           }
 
+          if(i >= number_of_players){
+            gotoxy(63, 17);
+            cout << player_names[i] << player_avatars[i] << " choose " << skill_name[choosen_skill];
+            cout <<"\n";
+            gotoxy(63, 19);
+            terminal_pause("");
+          }
+          
+
           if(choosen_skill == 0){
             clear_screen();
             cout << "💉IMMUNITY💉" << endl;
@@ -1303,21 +1314,40 @@ void snake_and_ladder_game() {
             is_snake_immune[i] = true;
             terminal_pause("");
           }else if(choosen_skill == 1){
-            vector<string> player_to_swap_options;
+            int choosen_player_to_swap;
 
-            for(int j = 0; j < (number_of_ai_players + number_of_players); j++){
-              if(i == j){
-                continue;
+            if(i < number_of_players){
+              vector<string> player_to_swap_options;
+              for(int j = 0; j < (number_of_ai_players + number_of_players); j++){
+                if(i == j){
+                  continue;
+                }
+  
+                player_to_swap_options.push_back(player_avatars[j]);
               }
+  
+              choosen_player_to_swap = display_options(player_to_swap_options, "CHOOSE PLAYER TO SWAP", 63, 17);
+  
+              if(choosen_player_to_swap >= i){
+                choosen_player_to_swap++;
+              }
+            }else{
+              int best_player_to_swap = 0;
 
-              player_to_swap_options.push_back(player_avatars[j]);
+                for(int j = 0; j < (number_of_ai_players + number_of_players); j++){
+                  if(i==j) continue;
+
+                  if(best_player_to_swap < player_tile_placement[j]){
+                    choosen_player_to_swap = j;
+                    best_player_to_swap = player_tile_placement[j];
+                  }
+                }
+
+
             }
+            
 
-            int choosen_player_to_swap = display_options(player_to_swap_options, "CHOOSE PLAYER TO SWAP", 63, 17);
-
-            if(choosen_player_to_swap >= i){
-              choosen_player_to_swap++;
-            }
+            
 
             int temp;
 
@@ -1335,6 +1365,7 @@ void snake_and_ladder_game() {
 
             cout << player_names[i] << player_avatars[i] << endl;
             cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n";
+            if(i >= number_of_players) cout << "Choosen player to swap: " << player_names[choosen_player_to_swap] << player_avatars[choosen_player_to_swap] << "       TILE: " << player_tile_placement[choosen_player_to_swap] << endl;
             cout << "    🔹 Recent Tile : " << temp;
             cout << "    🔄 Tile After Swap: " << player_tile_placement[i] << endl;
             terminal_pause("");
@@ -1365,6 +1396,8 @@ void snake_and_ladder_game() {
             cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n";
             terminal_pause("");
 
+            gotoxy(0, 2);
+            cout << "                                                             ";
             int number_to_teleport;
             int random_number;
             recent_tile_placement = player_tile_placement[i];
@@ -1396,7 +1429,32 @@ void snake_and_ladder_game() {
       if(player_tile_placement[i] == 100){
         player_wins = true;
         cout << "CONGRATULATIONS " << player_names[i] << " YOU ARE THE FIRST TO FINISH THE RACE!!!🎉🍾🎊\n\n\n" << endl;
+        int leading_player;
+        int second_leading;
+        int third_leading;
+
+        leading_player = second_leading = third_leading = INT_MIN;
+
+        for (int j = 0; j < 6; j++) {
+            if (player_tile_placement[j] > leading_player) {
+              third_leading = second_leading;
+              second_leading = leading_player;
+              leading_player = player_tile_placement[j];
+            } else if (player_tile_placement[j] > second_leading && player_tile_placement[j] < leading_player) {
+                third_leading = second_leading;
+                second_leading = player_tile_placement[j];
+            } else if (player_tile_placement[j] > third_leading && player_tile_placement[j] < second_leading) {
+                third_leading = player_tile_placement[j];
+            }
+        }
+
+
+        cout << "🌟🌟🌟FINALIST🌟🌟🌟" << endl;
+        cout << "🥇     " << player_names[leading_player] << player_avatars[leading_player] << endl;
+        cout << "🥈     " << player_names[second_leading] << player_avatars[second_leading] << endl;
+        cout << "🥉     " << player_names[third_leading] << player_avatars[third_leading] << endl;
         terminal_pause("Press ENTER to go back to main menu...");
+        clear_screen();
         break;
       }
 
