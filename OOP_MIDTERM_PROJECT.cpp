@@ -1452,8 +1452,8 @@ void snake_and_ladder_game() {
             }
 
             clear_screen();
-            cout << player_names[i] << player_avatars[i] << " choose 🪨Earthquake🪨" << endl;
-          
+            cout << player_names[i] << player_avatars[i] << " choose 🪨Earthquake🪨 and targeted " << player_names[choosen_player_to_cast] << player_avatars[choosen_player_to_cast] << endl;
+            cout << "Perks: Targeted player will be down to their current tile up to (0 - 20) number of tile\nCurse: The Caster will also feel the 1/5 of the earthquake\n\n";
           }
           
         }
