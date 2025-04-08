@@ -1158,9 +1158,9 @@ void snake_and_ladder_game() {
   bool is_level_25[6] = {false};
   bool is_level_50[6] = {false};
   bool is_level_75[6] = {false};
-  string skill_name[4] = {"💉Immunity💉", "🔄Player Swap🔄", "🎲Additional Dice Roll🎲", "🚀Player Teleport🚀"};
+  string skill_name[5] = {"💉Immunity💉", "🔄Player Swap🔄", "🎲Additional Dice Roll🎲", "🚀Player Teleport🚀", "🪨Earthquake🪨"};
 
-  string skill_emoji[4] = {"💉", "🔄", "🎲", "🚀"};
+  string skill_emoji[5] = {"💉", "🔄", "🎲", "🚀", "🪨"};
   
   do{
     player_wins = false;
@@ -1269,9 +1269,9 @@ void snake_and_ladder_game() {
           
           for(int j = 0; j < 8; j++){
             do{
-              skill_option_1 = rand() % 4;
-              skill_option_2 = rand() % 4;
-              skill_option_3 = rand() % 4;
+              skill_option_1 = rand() % 5;
+              skill_option_2 = rand() % 5;
+              skill_option_3 = rand() % 5;
             }while(skill_option_1 == skill_option_2 || skill_option_1 == skill_option_3 || skill_option_2 == skill_option_3);
 
             gotoxy(87,15);
@@ -1349,13 +1349,7 @@ void snake_and_ladder_game() {
                     best_player_to_swap = player_tile_placement[j];
                   }
                 }
-
-
-            }
-            
-
-            
-
+            }        
             int temp;
 
             temp = player_tile_placement[i];
@@ -1426,7 +1420,40 @@ void snake_and_ladder_game() {
             gotoxy(0,10);
             terminal_pause("");
 
+          }else if(choosen_skill == 4){
+            int choosen_player_to_cast;
 
+            if(i < number_of_players){
+              vector<string> player_to_cast_options;
+              for(int j = 0; j < (number_of_ai_players + number_of_players); j++){
+                if(i == j){
+                  continue;
+                }
+  
+                player_to_cast_options.push_back(player_avatars[j]);
+              }
+  
+              choosen_player_to_cast = display_options(player_to_cast_options, "CHOOSE PLAYER TO SWAP", 63, 17);
+  
+              if(choosen_player_to_cast >= i){
+                choosen_player_to_cast++;
+              }
+            }else{
+              int best_player_to_cast = 0;
+
+                for(int j = 0; j < (number_of_ai_players + number_of_players); j++){
+                  if(i==j) continue;
+
+                  if(best_player_to_cast < player_tile_placement[j]){
+                    choosen_player_to_cast = j;
+                    best_player_to_cast = player_tile_placement[j];
+                  }
+                }
+            }
+
+            clear_screen();
+            cout << player_names[i] << player_avatars[i] << " choose 🪨Earthquake🪨" << endl;
+          
           }
           
         }
