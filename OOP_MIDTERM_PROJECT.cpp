@@ -1453,14 +1453,14 @@ void snake_and_ladder_game() {
 
             clear_screen();
             cout << player_names[i] << player_avatars[i] << " choose 🪨Earthquake🪨 and targeted " << player_names[choosen_player_to_cast] << player_avatars[choosen_player_to_cast] << endl;
-            for(int j = 0; j < (player_names[i].length() + 38 + player_names[choosen_player_to_cast].length()); j++) cout << "▬";
-            cout << "Perks: Targeted player will be down to their current tile up to (0 - 20) number of tile\nCurse: The Caster will also feel the 1/5 of the earthquake\n\n";
+            for(int j = 0; j < (player_names[i].length() + 41 + player_names[choosen_player_to_cast].length()); j++) cout << "▬";
+            cout << "\nPerks: Targeted player will be down to their current tile up to (0 - 20) number of tile\nCurse: The Caster will also feel the 1/5 of the earthquake\n\n";
 
             int earthquake_intensity;
 
             for(int j = 0; j < 6; j++){
               earthquake_intensity = rand() % 20 + 1;
-              gotoxy(0,4);
+              gotoxy(0,5);
               cout << "Earthquake Intensity: " << earthquake_intensity;
               delay(750);
             }
