@@ -1453,7 +1453,32 @@ void snake_and_ladder_game() {
 
             clear_screen();
             cout << player_names[i] << player_avatars[i] << " choose 🪨Earthquake🪨 and targeted " << player_names[choosen_player_to_cast] << player_avatars[choosen_player_to_cast] << endl;
+            for(int j = 0; j < (player_names[i].length() + 38 + player_names[choosen_player_to_cast].length()); j++) cout << "▬";
             cout << "Perks: Targeted player will be down to their current tile up to (0 - 20) number of tile\nCurse: The Caster will also feel the 1/5 of the earthquake\n\n";
+
+            int earthquake_intensity;
+
+            for(int j = 0; j < 6; j++){
+              earthquake_intensity = rand() % 20 + 1;
+              gotoxy(0,4);
+              cout << "Earthquake Intensity: " << earthquake_intensity;
+              delay(750);
+            }
+
+            int temp = player_tile_placement[i];
+            player_tile_placement[i] -= earthquake_intensity / 5;
+            player_tile_placement[choosen_player_to_cast] -= earthquake_intensity;
+
+            cout << "\n\nCASTER: " << player_names[i] << player_avatars[i] << endl; 
+            cout << "    🔹 Recent Tile : " << temp << endl;
+            cout << "    🔄 Tile After Earthquake: " << player_tile_placement[i] << endl;
+
+            cout << "\n\nTARGET: " << player_names[choosen_player_to_cast] << player_avatars[choosen_player_to_cast] << endl; 
+            cout << "    🔹 Recent Tile : " << (player_tile_placement[choosen_player_to_cast] + earthquake_intensity) << endl;
+            cout << "    🔄 Tile After Earthquake: " << player_tile_placement[choosen_player_to_cast] << endl;
+
+            terminal_pause("");
+
           }
           
         }
