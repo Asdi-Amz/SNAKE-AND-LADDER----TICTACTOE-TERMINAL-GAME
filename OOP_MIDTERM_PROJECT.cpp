@@ -1533,6 +1533,7 @@ void snake_and_ladder_game() {
         cout<< "AIGHT YOU GOTTA LAND ON TILE 100 WITH THE EXACT NUMBER OF MOVES🐾🐾\n\n" 
             <<"CURRENT TILE: " << player_tile_placement[i] << "\t\tTILE FOR GOING BACKWARDS FOR EXCESS STEPS: " << 100 - (player_tile_placement[i] % 100) << endl;
         player_tile_placement[i] = 100 - (player_tile_placement[i] % 100);
+        terminal_pause("");
       }
       
       if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🐍"){
