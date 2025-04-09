@@ -1424,6 +1424,8 @@ void snake_and_ladder_game() {
             int choosen_player_to_cast;
 
             if(i < number_of_players){
+              clear_screen();
+              print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
               vector<string> player_to_cast_options;
               for(int j = 0; j < (number_of_ai_players + number_of_players); j++){
                 if(i == j){
