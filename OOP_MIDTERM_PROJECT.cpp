@@ -1495,14 +1495,14 @@ void snake_and_ladder_game() {
         leading_player = second_leading = third_leading = INT_MIN;
 
         for (int j = 0; j < (number_of_players + number_of_ai_players); j++) {
-            if (player_tile_placement[j] > leading_player) {
+            if (player_tile_placement[j] >= leading_player) {
               third_leading = second_leading;
               second_leading = leading_player;
               leading_player = player_tile_placement[j];
-            } else if (player_tile_placement[j] > second_leading && player_tile_placement[j] < leading_player) {
+            } else if (player_tile_placement[j] >= second_leading && player_tile_placement[j] < leading_player) {
                 third_leading = second_leading;
                 second_leading = player_tile_placement[j];
-            } else if (player_tile_placement[j] > third_leading && player_tile_placement[j] < second_leading) {
+            } else if (player_tile_placement[j] >= third_leading && player_tile_placement[j] < second_leading) {
                 third_leading = player_tile_placement[j];
             }
         }
@@ -1513,9 +1513,14 @@ void snake_and_ladder_game() {
           cout << "🥈     " << player_names[second_leading] << player_avatars[second_leading] << endl;
         }else{
           cout << "🌟🌟🌟FINALIST🌟🌟🌟" << endl;
-          cout << "🥇     " << player_names[leading_player] << player_avatars[leading_player] << endl;
-          cout << "🥈     " << player_names[second_leading] << player_avatars[second_leading] << endl;
-          cout << "🥉     " << player_names[third_leading] << player_avatars[third_leading] << endl;
+          
+          cout << "🥇     " << player_names[i] << player_avatars[i] << endl;
+          
+          for(int j = 0; j < 6; j++) if(second_leading == player_tile_placement[j])
+            cout << "🥈     " << player_names[j] << player_avatars[j] << endl;
+
+          for(int j = 0; j < 6; j++) if(third_leading == player_tile_placement[j])
+            cout << "🥉     " << player_names[j] << player_avatars[j] << endl;
         }
         
         terminal_pause("Press ENTER to go back to main menu...");
