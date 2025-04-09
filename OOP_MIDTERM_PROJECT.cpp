@@ -1332,7 +1332,7 @@ void snake_and_ladder_game() {
   
                 player_to_swap_options.push_back(player_avatars[j]);
               }
-  
+              print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
               choosen_player_to_swap = display_options(player_to_swap_options, "CHOOSE PLAYER TO SWAP", 63, 17);
   
               if(choosen_player_to_swap >= i){
