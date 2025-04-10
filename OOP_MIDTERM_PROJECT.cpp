@@ -22,6 +22,7 @@
 using namespace std;
 
 // Game constants
+const int enter_key = 13;
 const int TTT_BOARD_SIZE = 9;
 const int WIN_SCORE = 3;
 string space = "           "; // 14 spaces
@@ -37,7 +38,7 @@ void clear_screen();
 void gotoxy(int x, int y);
 void cursor_hide();
 void cursor_show();
-void terminal_pause(const string &prompt);
+void terminal_pause(const string &prompt, int key_code);
 void delay(int milliseconds);
 int getch();
 
@@ -256,9 +257,19 @@ void cursor_show()
 
 
 
-void terminal_pause(const string &prompt)
+void terminal_pause(const string &prompt, int key_code)
 {
-  system("pause");
+  cout << prompt << endl;
+  int user_key_code;
+
+  do{
+    user_key_code = _getch();
+
+    if(user_key_code != key_code) cout << "\nWrong key, Press the correct key!\n";
+    cin.ignore();
+    cin.clear();
+  }while(user_key_code != key_code);
+  
 }
 
 void arrow_options_animation(const vector<string> &options, int selected)
@@ -394,13 +405,13 @@ void tictactoe_game_menu()
 {
   clear_screen();
   displayTicTacToeTitle();
-  terminal_pause("\nENTER to continue...\n");
+  terminal_pause("\nENTER to continue...\n", enter_key);
   clear_screen();
   cout << "*****************************************\n"
        << "    👋 WELCOME TO ❌TICTACTOE GAME🔵\n"
        << "*****************************************\n";
 
-  terminal_pause("Press Enter to Continue...");
+  terminal_pause("Press Enter to Continue...", enter_key);
 
   while (true)
   {
@@ -444,7 +455,7 @@ void tictactoe_game_menu()
     case 3:
       clear_screen();
       displayThankYou();
-      terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...");
+      terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...", enter_key);
       clear_screen();
       return;
       break;
@@ -482,7 +493,7 @@ void tictactoe_game(bool vsAI, bool hardMode)
     else if (read_instruction_response != 'p')
     {
       terminal_pause("Invalid input please read the prompt carefully,\nPress "
-                     "enter to continue...");
+                     "enter to continue...", enter_key);
     }
   } while (read_instruction_response != 'p');
 
@@ -507,7 +518,7 @@ void tictactoe_game(bool vsAI, bool hardMode)
   cout << "Welcome " << player1_name << (vsAI ? "" : " and " + player2_name)
        << " please enjoy the game 😊\n";
   cout << endl << player1_name << " will take the first move. The player who reach 3 points first, will win 🏆" << endl;
-  terminal_pause("Press ENTER and the game will begin...");
+  terminal_pause("Press ENTER and the game will begin...", enter_key);
 
   // Main game loop
   while (player1_score < WIN_SCORE && player2_score < WIN_SCORE)
@@ -570,7 +581,7 @@ void tictactoe_game(bool vsAI, bool hardMode)
         cout << "CONGRATULATIONS!!! " << player1_name << " Wins!" << endl;
         player1_score++;
         clear_input_buffer();
-        terminal_pause("Press enter to proceed to next round...");
+        terminal_pause("Press enter to proceed to next round...", enter_key);
         game_over = true;
         break;
       }
@@ -613,7 +624,7 @@ void tictactoe_game(bool vsAI, bool hardMode)
           cout << endl << "AI Wins! Better luck next time!" << endl;
           player2_score++;
           clear_input_buffer();
-          terminal_pause("Press enter to proceed to next round...");
+          terminal_pause("Press enter to proceed to next round...", enter_key);
           game_over = true;
         }
       }
@@ -664,7 +675,7 @@ void tictactoe_game(bool vsAI, bool hardMode)
           cout << "CONGRATULATIONS!!! " << player2_name << " Wins!" << endl;
           player2_score++;
           clear_input_buffer();
-          terminal_pause("Press enter to proceed to next round...");
+          terminal_pause("Press enter to proceed to next round...", enter_key);
           game_over = true;
         }
       }
@@ -677,7 +688,7 @@ void tictactoe_game(bool vsAI, bool hardMode)
                             player1_name, player2_name);
       clear_input_buffer();
       cout << "⚠️ It's a DRAW!!!" << endl;
-      terminal_pause("\nPress enter to start a new round..");
+      terminal_pause("\nPress enter to start a new round..", enter_key);
     }
 
     clear_screen();
@@ -715,7 +726,7 @@ exit_decision = getch();
          << " You Won!🎉, You OUTSMARTED " << player1_name << " 🍾\n";
   }
 
-  terminal_pause("Press ENTER to go back to TICTACTOE main menu...");
+  terminal_pause("Press ENTER to go back to TICTACTOE main menu...", enter_key);
 }
 
 void print_tictactoe_board(const string board_mark[], int player1_score,
@@ -996,7 +1007,7 @@ void tictactoe_developer_section()
        << "- Clean terminal interface\n"
        << "- Unicode symbol support\n";
 
-  terminal_pause("\nPress ENTER to go back to main menu...");
+  terminal_pause("\nPress ENTER to go back to main menu...", enter_key);
 }
 
 // Snake and Ladder stubs (unchanged)
@@ -1005,12 +1016,12 @@ void snake_and_ladder_game_menu()
   int menu_decision = 0;
   clear_screen();
   displaySnakeLadderTitle();
-  terminal_pause("\nENTER to continue...\n");
+  terminal_pause("\nENTER to continue...\n", enter_key);
   clear_screen();
   cout << "*******************************************\n"
        << "   👋 WELCOME TO SNAKE 🐍 AND LADDER 🪜\n"
        << "*******************************************\n";
-  terminal_pause("Press Enter to Continue...");
+  terminal_pause("Press Enter to Continue...", enter_key);
 
   vector<string> main_menu_options = {" Play Game 🕹️", " How to Play ❔",
                                       " Developers ⌨️", " Exit ➡️"};
@@ -1032,7 +1043,7 @@ void snake_and_ladder_game_menu()
   case 3:
     clear_screen();
     displayThankYou();
-    terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...");
+    terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...", enter_key);
     clear_screen();
     break;
   }
@@ -1147,7 +1158,7 @@ void snake_and_ladder_game() {
   }
   cout << "\n\n";
   cout << player_names[0] << player_avatars[0] << " will take the first roll 🎲 ,  ";
-  terminal_pause("Press ENTER and the game will begins...");
+  terminal_pause("Press ENTER and the game will begins...", enter_key);
 
   
   int recent_tile_placement;
@@ -1197,7 +1208,7 @@ void snake_and_ladder_game() {
       gotoxy(68,24); 
       cout << "    🎲 Tile After Dice Roll: " << player_tile_placement[i] << endl;
       gotoxy(68,26);
-      terminal_pause("Press ENTER to continue...");
+      terminal_pause("Press ENTER to update the board placement...", enter_key);
       
       if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🐍"){
         clear_screen();
@@ -1214,7 +1225,7 @@ void snake_and_ladder_game() {
 
         
         
-        terminal_pause("\nPress ENTER to continue...");
+        terminal_pause("\nPress ENTER to continue...", enter_key);
       }else if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🪜"){
         clear_screen();
         cout << player_names[i] << player_avatars[i] << endl;
@@ -1228,7 +1239,7 @@ void snake_and_ladder_game() {
           cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
         }
 
-        terminal_pause("\nPress ENTER to continue...");
+        terminal_pause("\nPress ENTER to continue...", enter_key);
       }
 
       player_tile_placement[i] = player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]);
@@ -1263,7 +1274,7 @@ void snake_and_ladder_game() {
           int skill_option_1, skill_option_2, skill_option_3;
           
           gotoxy(65, 14);
-          terminal_pause("");
+          terminal_pause("Press ENTER to start generating skills...", enter_key);
           gotoxy(65, 14);
           cout << "               Random Skill Generator                " << endl;
           
@@ -1279,7 +1290,7 @@ void snake_and_ladder_game() {
             delay(700);
           }
           gotoxy(63, 17);
-          terminal_pause("");
+          terminal_pause("Press ENTER to choose a skill...", enter_key);
           vector<string> random_skill_options = {skill_name[skill_option_1], skill_name[skill_option_2], skill_name[skill_option_3]};
 
           int choosen_skill;
@@ -1309,7 +1320,7 @@ void snake_and_ladder_game() {
             cout << player_names[i] << player_avatars[i] << " choose " << skill_name[choosen_skill];
             cout <<"\n";
             gotoxy(63, 19);
-            terminal_pause("");
+            terminal_pause("Press ENTER to take effect the skill", enter_key);
           }
           
 
@@ -1319,7 +1330,7 @@ void snake_and_ladder_game() {
             cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬\n";
             cout <<player_names[i] << player_avatars[i] <<  " choose immunity \nPerks: Immune to Snake\nPower Curse: Immune to ladder\n";
             is_snake_immune[i] = true;
-            terminal_pause("");
+            terminal_pause("Press Enter to SHOW the board...", enter_key);
           }else if(choosen_skill == 1){
             int choosen_player_to_swap;
 
@@ -1369,7 +1380,7 @@ void snake_and_ladder_game() {
             if(i >= number_of_players) cout << "Choosen player to swap: " << player_names[choosen_player_to_swap] << player_avatars[choosen_player_to_swap] << "       TILE: " << player_tile_placement[choosen_player_to_swap] << endl;
             cout << "    🔹 Recent Tile : " << temp;
             cout << "    🔄 Tile After Swap: " << player_tile_placement[i] << endl;
-            terminal_pause("");
+            terminal_pause("Press ENTER to UPDATE the board...", enter_key);
 
           }else if(choosen_skill == 2){
             clear_screen();
@@ -1389,13 +1400,13 @@ void snake_and_ladder_game() {
             gotoxy(68,24); 
             cout << "    🎲 Tile After Dice Roll: " << player_tile_placement[i] << endl;
             gotoxy(68,26);
-            terminal_pause("");
+            terminal_pause("Press ENTER to UPDATE the board...", enter_key);
 
           }else if(choosen_skill == 3){
             clear_screen();
             cout << "PLAYER TELEPORT: " <<  player_names[i] << player_avatars[i] <<endl;
             cout << "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n";
-            terminal_pause("");
+            terminal_pause("Press ENTER to SHOW the board", enter_key);
 
             gotoxy(0, 2);
             cout << "                                                             ";
@@ -1418,7 +1429,7 @@ void snake_and_ladder_game() {
             gotoxy(0,8);
             cout << "    🔹 Recent Tile : " << recent_tile_placement;
             gotoxy(0,10);
-            terminal_pause("");
+            terminal_pause("Press ENTER to SHOW the board...", enter_key);
 
           }else if(choosen_skill == 4){
             int choosen_player_to_cast;
@@ -1479,7 +1490,7 @@ void snake_and_ladder_game() {
             cout << "    🔹 Recent Tile : " << (player_tile_placement[choosen_player_to_cast] + earthquake_intensity) << endl;
             cout << "    🔄 Tile After Earthquake: " << player_tile_placement[choosen_player_to_cast] << endl;
 
-            terminal_pause("");
+            terminal_pause("Press ENTER to UPDATE the board", enter_key);
 
           }
           
@@ -1525,7 +1536,7 @@ void snake_and_ladder_game() {
             cout << "🥉     " << player_names[j] << player_avatars[j] << endl;
         }
         
-        terminal_pause("Press ENTER to go back to main menu...");
+        terminal_pause("Press ENTER to go back to main menu...", enter_key);
         clear_screen();
         break;
       }
@@ -1535,7 +1546,7 @@ void snake_and_ladder_game() {
         cout<< "AIGHT YOU GOTTA LAND ON TILE 100 WITH THE EXACT NUMBER OF MOVES🐾🐾\n\n" 
             <<"CURRENT TILE: " << player_tile_placement[i] << "\t\tTILE FOR GOING BACKWARDS FOR EXCESS STEPS: " << 100 - (player_tile_placement[i] % 100) << endl;
         player_tile_placement[i] = 100 - (player_tile_placement[i] % 100);
-        terminal_pause("");
+        terminal_pause("Press ENTER to SHOW the board", enter_key);
       }
       
       if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🐍"){
@@ -1553,7 +1564,7 @@ void snake_and_ladder_game() {
 
         
         
-        terminal_pause("\nPress ENTER to continue...");
+        terminal_pause("\nPress ENTER to SHOW the board...", enter_key);
       }else if(board_tile[choosen_board_difficulty][player_tile_placement[i]] == " 🪜"){
         clear_screen();
         cout << player_names[i] << player_avatars[i] << endl;
@@ -1565,7 +1576,7 @@ void snake_and_ladder_game() {
         }else{
           cout << "YOU'RE LUCKY YOU FOUND A LADDER!!! 🤑\n";
           cout << "Current Tile: " << player_tile_placement[i] << "\t\tTile After Using the LADDER🪜: " << player_tile_placement_checker(player_tile_placement[i], choosen_board_difficulty, is_snake_immune[i]) << endl;
-          terminal_pause("\nPress ENTER to continue...");
+          terminal_pause("\nPress ENTER to SHOW the board...", enter_key);
         }
         
       }
@@ -2016,7 +2027,7 @@ cout << "PLAYER TELEPORT(Self-cast):\n"
 "Perks: you can step up with 10 tiles.\n"
 "Cons: There's also a chance you can step down 5 tiles.\n";
     
-    terminal_pause("Press ENTER to go back to main menu...");
+    terminal_pause("Press ENTER to go back to main menu...", enter_key);
     clear_screen();
     snake_and_ladder_game_menu();
     return;
@@ -2037,7 +2048,7 @@ cout << "- It's not a BUG, it's a FEATURE.\n\n";
   cout << "Krisna Hojland\nStatus: Double\n";
 cout << "- If debugging is the process of removing bugs, then programming must be the process of putting them in.\n";
 
-terminal_pause("\nPress ENTER to go back to main menu...");
+terminal_pause("\nPress ENTER to go back to main menu...", enter_key);
 clear_screen();
 snake_and_ladder_game_menu();
 return;
