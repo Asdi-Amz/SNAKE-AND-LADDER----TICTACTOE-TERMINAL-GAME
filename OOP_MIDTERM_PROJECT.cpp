@@ -265,7 +265,7 @@ void arrow_options_animation(const vector<string> &options, int selected)
 {
   for (size_t i = 0; i < options.size(); i++)
   {
-    cout << (i == selected ? "➡️" : " ") << " " << options[i] << " " << endl;
+    cout << (i == selected ? "➡️ " : "  ") << " " << options[i] << " " << endl;
   }
 }
 
