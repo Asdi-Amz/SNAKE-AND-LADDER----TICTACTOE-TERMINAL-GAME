@@ -266,8 +266,6 @@ void terminal_pause(const string &prompt, int key_code)
     user_key_code = _getch();
 
     if(user_key_code != key_code) cout << "\nWrong key, Press the correct key!\n";
-    cin.ignore();
-    cin.clear();
   }while(user_key_code != key_code);
   
 }
