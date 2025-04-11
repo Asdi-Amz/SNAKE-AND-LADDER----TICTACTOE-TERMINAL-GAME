@@ -9,6 +9,8 @@
 #include <thread>
 #include <vector>
 #include <cmath>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib") // Link the winmm library
 
 #ifdef _WIN32
 #include <conio.h>
@@ -103,6 +105,7 @@ int getch()
 
 int main()
 {
+  PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC);
 #ifdef _WIN32
   SetConsoleOutputCP(65001);
 #endif
