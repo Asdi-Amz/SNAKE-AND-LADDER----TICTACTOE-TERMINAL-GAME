@@ -44,6 +44,7 @@ void cursor_show();
 void terminal_pause(const string &prompt, int key_code);
 void delay(int milliseconds);
 int getch();
+void music_play(string file_location);
 
 string interpolateColor(int r1, int g1, int b1, int r2, int g2, int b2, float ratio);
 void displayTicTacToeTitle();
@@ -82,6 +83,7 @@ void displayThankYou();
 void snake_and_ladder_developer_section();
 void print_big_DEVELOPERS();
 
+
 void delay(int milliseconds)
 {
  this_thread::sleep_for(chrono::milliseconds(milliseconds));
@@ -106,9 +108,7 @@ int getch()
 
 int main()
 {
-  
 #ifdef _WIN32
-  PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC);
   SetConsoleOutputCP(65001);
 #endif
   srand(time(0)); // Add this line for random number generation
@@ -131,6 +131,13 @@ int main()
   }
 
   return 0;
+}
+void music_play(const string& file_location){
+  // Convert the string to a wide-character string
+  wstring wide_location(file_location.begin(), file_location.end());
+  
+  // Play sound
+  PlaySound(wide_location.c_str(), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
 string interpolateColor(int r1, int g1, int b1, int r2, int g2, int b2,
@@ -271,6 +278,7 @@ void terminal_pause(const string &prompt, int key_code)
     user_key_code = _getch();
 
     if(user_key_code != key_code) cout << "\nWrong key, Press the correct key!\n";
+    else PlaySound(TEXT("GAME MUSIC\rising-funny-game-effect-132474.wav"), NULL, SND_FILENAME | SND_ASYNC);
   }while(user_key_code != key_code);
   
 }
@@ -334,7 +342,7 @@ int display_options(const vector<string> &options, const string &title)
 #endif
     else if (key == '\r' || key == '\n')
     {
-      PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC);
+      PlaySound(TEXT("GAME MUSIC\rising-funny-game-effect-132474.wav"), NULL, SND_FILENAME | SND_ASYNC);
       clear_screen();
       break;
     }
@@ -401,6 +409,7 @@ int display_options(const vector<string> &options, const string &title, int x, i
 #endif
     else if (key == '\r' || key == '\n')
     {
+      PlaySound(TEXT("GAME MUSIC\rising-funny-game-effect-132474.wav"), NULL, SND_FILENAME | SND_ASYNC);
       clear_screen();
       break;
     }
