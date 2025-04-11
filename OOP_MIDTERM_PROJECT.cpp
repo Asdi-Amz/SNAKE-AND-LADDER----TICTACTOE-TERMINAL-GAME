@@ -108,7 +108,7 @@ int main()
 {
   
 #ifdef _WIN32
-  PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC);
+  //PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC);
   SetConsoleOutputCP(65001);
 #endif
   srand(time(0)); // Add this line for random number generation
@@ -310,10 +310,12 @@ int display_options(const vector<string> &options, const string &title)
       if (key == 72)
       { // Up arrow
         selected = (selected - 1 + options.size()) % options.size();
+        PlaySound(TEXT("GAME MUSIC\\cinematic-impact-boom-2-294435.wav"), NULL, SND_FILENAME | SND_ASYNC);
       }
       else if (key == 80)
       { // Down arrow
         selected = (selected + 1) % options.size();
+        PlaySound(TEXT("GAME MUSIC\\cinematic-impact-boom-2-294435.wav"), NULL, SND_FILENAME | SND_ASYNC);
       }
     }
 #else
@@ -374,10 +376,12 @@ int display_options(const vector<string> &options, const string &title, int x, i
       if (key == 72)
       { // Up arrow
         selected = (selected - 1 + options.size()) % options.size();
+        PlaySound(TEXT("GAME MUSIC\\cinematic-impact-boom-2-294435.wav"), NULL, SND_FILENAME | SND_ASYNC);
       }
       else if (key == 80)
       { // Down arrow
         selected = (selected + 1) % options.size();
+        PlaySound(TEXT("GAME MUSIC\\cinematic-impact-boom-2-294435.wav"), NULL, SND_FILENAME | SND_ASYNC);
       }
     }
 #else
