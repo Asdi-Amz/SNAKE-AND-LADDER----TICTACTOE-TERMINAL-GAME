@@ -9,17 +9,18 @@
 #include <thread>
 #include <vector>
 #include <cmath>
-#include <mmsystem.h>
-#pragma comment(lib, "winmm.lib") // Link the winmm library
 
 #ifdef _WIN32
 #include <conio.h>
 #include <windows.h>
+#include <mmsystem.h>
+
 #else
 #include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
 #endif
+
 
 using namespace std;
 
@@ -105,8 +106,9 @@ int getch()
 
 int main()
 {
-  PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC);
+  
 #ifdef _WIN32
+  PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC);
   SetConsoleOutputCP(65001);
 #endif
   srand(time(0)); // Add this line for random number generation
