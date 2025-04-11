@@ -109,6 +109,7 @@ int getch()
 int main()
 {
 #ifdef _WIN32
+PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
   SetConsoleOutputCP(65001);
 #endif
   srand(time(0)); // Add this line for random number generation
@@ -134,7 +135,7 @@ int main()
 }
 void music_play(const string& file_location){
   // Play sound using the ANSI version of PlaySound
-  PlaySoundA(file_location.c_str(), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+  PlaySoundA(file_location.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 }
 
 string interpolateColor(int r1, int g1, int b1, int r2, int g2, int b2,
@@ -1804,12 +1805,14 @@ void print_snake_and_ladder_board(string board_tile[], int difficulty, string pl
 int dice_roller() {
   int dice_number;
 
+  
   for(int i = 0; i < 10; i++){
     gotoxy(65,12);
     cout << "Rolling the dice...                               \n";
     dice_number = (rand() % 6) + 1;
     display_dice_face(dice_number);
-    this_thread::sleep_for(chrono::milliseconds(200));
+    music_play("GAME MUSIC\\rolling-dice-2-102706.wav");
+    this_thread::sleep_for(chrono::milliseconds(450));
   }
 
   for(int i = 0; i < 3; i++){ 
@@ -1817,12 +1820,14 @@ int dice_roller() {
     cout << "Rolling the dice...                               \n";
     dice_number = (rand() % 6) + 1;
     display_dice_face(dice_number);
-    this_thread::sleep_for(chrono::milliseconds(500));
+    music_play("GAME MUSIC\\rolling-dice-2-102706.wav");
+    this_thread::sleep_for(chrono::milliseconds(700));
   }
   
   gotoxy(65,12);  
   cout << "Final Dice Roll 🏁:                                 \n";
   display_dice_face(dice_number);
+  music_play("GAME MUSIC\\game-bonus-2-294436.wav");
   gotoxy(65,19);
   cout << "You got 🎲 " << dice_number << endl;
   return dice_number;
