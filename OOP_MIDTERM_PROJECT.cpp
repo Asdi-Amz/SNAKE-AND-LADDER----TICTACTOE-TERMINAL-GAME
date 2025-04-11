@@ -353,7 +353,7 @@ void arrow_options_animation(const vector<string> &options, int selected, int x,
   for (int i = 0; i < options.size(); i++)
   {
     gotoxy(x, y + 4 + i);
-    cout << (i == selected ? " ➡️" : "  ") << options[i] << "  " << endl;
+    cout << (i == selected ? " ➡️ " : "   ") << options[i] << "  " << endl;
   }
 }
 int display_options(const vector<string> &options, const string &title, int x, int y){
