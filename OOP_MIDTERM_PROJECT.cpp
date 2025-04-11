@@ -44,7 +44,7 @@ void cursor_show();
 void terminal_pause(const string &prompt, int key_code);
 void delay(int milliseconds);
 int getch();
-void music_play(string file_location);
+void music_play(const string& file_location);
 
 string interpolateColor(int r1, int g1, int b1, int r2, int g2, int b2, float ratio);
 void displayTicTacToeTitle();
@@ -133,11 +133,8 @@ int main()
   return 0;
 }
 void music_play(const string& file_location){
-  // Convert the string to a wide-character string
-  wstring wide_location(file_location.begin(), file_location.end());
-  
-  // Play sound
-  PlaySound(wide_location.c_str(), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+  // Play sound using the ANSI version of PlaySound
+  PlaySoundA(file_location.c_str(), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
 string interpolateColor(int r1, int g1, int b1, int r2, int g2, int b2,
@@ -278,7 +275,7 @@ void terminal_pause(const string &prompt, int key_code)
     user_key_code = _getch();
 
     if(user_key_code != key_code) cout << "\nWrong key, Press the correct key!\n";
-    else PlaySound(TEXT("GAME MUSIC\rising-funny-game-effect-132474.wav"), NULL, SND_FILENAME | SND_ASYNC);
+    else music_play("GAME MUSIC\\rising-funny-game-effect-132474.wav");
   }while(user_key_code != key_code);
   
 }
@@ -318,12 +315,12 @@ int display_options(const vector<string> &options, const string &title)
       if (key == 72)
       { // Up arrow
         selected = (selected - 1 + options.size()) % options.size();
-        PlaySound(TEXT("GAME MUSIC\\cinematic-impact-boom-2-294435.wav"), NULL, SND_FILENAME | SND_ASYNC);
+        music_play("GAME MUSIC\\cinematic-impact-boom-2-294435.wav");
       }
       else if (key == 80)
       { // Down arrow
         selected = (selected + 1) % options.size();
-        PlaySound(TEXT("GAME MUSIC\\cinematic-impact-boom-2-294435.wav"), NULL, SND_FILENAME | SND_ASYNC);
+        music_play("GAME MUSIC\\cinematic-impact-boom-2-294435.wav");
       }
     }
 #else
@@ -342,7 +339,7 @@ int display_options(const vector<string> &options, const string &title)
 #endif
     else if (key == '\r' || key == '\n')
     {
-      PlaySound(TEXT("GAME MUSIC\rising-funny-game-effect-132474.wav"), NULL, SND_FILENAME | SND_ASYNC);
+      music_play("GAME MUSIC\\rising-funny-game-effect-132474.wav");
       clear_screen();
       break;
     }
@@ -385,12 +382,12 @@ int display_options(const vector<string> &options, const string &title, int x, i
       if (key == 72)
       { // Up arrow
         selected = (selected - 1 + options.size()) % options.size();
-        PlaySound(TEXT("GAME MUSIC\\cinematic-impact-boom-2-294435.wav"), NULL, SND_FILENAME | SND_ASYNC);
+        music_play("GAME MUSIC\\cinematic-impact-boom-2-294435.wav");
       }
       else if (key == 80)
       { // Down arrow
         selected = (selected + 1) % options.size();
-        PlaySound(TEXT("GAME MUSIC\\cinematic-impact-boom-2-294435.wav"), NULL, SND_FILENAME | SND_ASYNC);
+        music_play("GAME MUSIC\\cinematic-impact-boom-2-294435.wav");
       }
     }
 #else
@@ -409,7 +406,7 @@ int display_options(const vector<string> &options, const string &title, int x, i
 #endif
     else if (key == '\r' || key == '\n')
     {
-      PlaySound(TEXT("GAME MUSIC\rising-funny-game-effect-132474.wav"), NULL, SND_FILENAME | SND_ASYNC);
+      music_play("GAME MUSIC\\rising-funny-game-effect-132474.wav");
       clear_screen();
       break;
     }
