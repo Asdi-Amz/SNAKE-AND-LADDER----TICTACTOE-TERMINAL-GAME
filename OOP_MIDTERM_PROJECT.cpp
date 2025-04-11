@@ -108,7 +108,7 @@ int main()
 {
   
 #ifdef _WIN32
-  //PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC);
+  PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC);
   SetConsoleOutputCP(65001);
 #endif
   srand(time(0)); // Add this line for random number generation
@@ -334,6 +334,7 @@ int display_options(const vector<string> &options, const string &title)
 #endif
     else if (key == '\r' || key == '\n')
     {
+      PlaySound(TEXT("GAME MUSIC\\rhythm_factorymix4.wav"), NULL, SND_FILENAME | SND_ASYNC);
       clear_screen();
       break;
     }
