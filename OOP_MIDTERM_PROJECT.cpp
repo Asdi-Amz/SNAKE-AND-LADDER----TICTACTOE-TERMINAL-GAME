@@ -1494,15 +1494,23 @@ void snake_and_ladder_game() {
             }
 
             int temp = player_tile_placement[i];
+            int temp_target = player_tile_placement[choosen_player_to_cast];
+
             player_tile_placement[i] -= earthquake_intensity / 5;
-            player_tile_placement[choosen_player_to_cast] -= earthquake_intensity;
+
+            if(player_tile_placement[choosen_player_to_cast] < earthquake_intensity){
+              player_tile_placement[choosen_player_to_cast] = 0;
+            }else{
+              player_tile_placement[choosen_player_to_cast] -= earthquake_intensity;
+            }
+            
 
             cout << "\n\nCASTER: " << player_names[i] << player_avatars[i] << endl; 
             cout << "    🔹 Recent Tile : " << temp << endl;
             cout << "    🔄 Tile After Earthquake: " << player_tile_placement[i] << endl;
 
             cout << "\n\nTARGET: " << player_names[choosen_player_to_cast] << player_avatars[choosen_player_to_cast] << endl; 
-            cout << "    🔹 Recent Tile : " << (player_tile_placement[choosen_player_to_cast] + earthquake_intensity) << endl;
+            cout << "    🔹 Recent Tile : " << temp_target << endl;
             cout << "    🔄 Tile After Earthquake: " << player_tile_placement[choosen_player_to_cast] << endl;
 
             terminal_pause("Press ENTER to UPDATE the board", enter_key);
