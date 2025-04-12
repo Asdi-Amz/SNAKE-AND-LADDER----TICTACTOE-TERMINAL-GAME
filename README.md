@@ -5,5 +5,5 @@ Lead: Andrie Timothy Cabuguas
 - ASDII AMAMENCE
 - JOHN KENNETH MADERA
 
-Try and have fun playing our game you can click this [Click me to download our game](https://raw.githubusercontent.com/driedrie/SNAKE-AND-LADDER----TICTACTOE-TERMINAL-GAME/refs/heads/main/OOP_MIDTERM_PROJECT.exe)😉😇
+Try and have fun playing our game you can click this [Click me to download our game](https://ctueduph-my.sharepoint.com/:u:/g/personal/andrietimothy_cabuguas_ctu_edu_ph/EVUEy4pxjXNBlVfiY_uGg9oBnrPJqNg12sSVrpIsuBg_pg?e=lgchYg)😉😇
 
