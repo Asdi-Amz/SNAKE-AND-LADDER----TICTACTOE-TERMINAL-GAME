@@ -1444,7 +1444,7 @@ void snake_and_ladder_game() {
             gotoxy(0,8);
             cout << "    🔹 Recent Tile : " << recent_tile_placement;
             gotoxy(0,10);
-            terminal_pause("Press ENTER to SHOW the board...", enter_key);
+            terminal_pause("Press ENTER to GENRATE the tile to teleport...", enter_key);
 
           }else if(choosen_skill == 4){
             int choosen_player_to_cast;
