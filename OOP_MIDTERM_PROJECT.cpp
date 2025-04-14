@@ -1289,7 +1289,7 @@ void snake_and_ladder_game() {
           int skill_option_1, skill_option_2, skill_option_3;
           
           gotoxy(65, 14);
-          terminal_pause("Press ENTER to start generating skills...", enter_key);
+          system("pause");
           gotoxy(65, 14);
           cout << "               Random Skill Generator                " << endl;
           
@@ -1305,7 +1305,7 @@ void snake_and_ladder_game() {
             delay(700);
           }
           gotoxy(63, 17);
-          terminal_pause("Press ENTER to choose a skill...", enter_key);
+          system("pause");
           vector<string> random_skill_options = {skill_name[skill_option_1], skill_name[skill_option_2], skill_name[skill_option_3]};
 
           int choosen_skill;
