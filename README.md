@@ -5,6 +5,6 @@ Lead: Andrie Timothy Cabuguas
 - ASDII AMAMENCE
 - JOHN KENNETH MADERA
 
-Try and have fun playing our game you can click this [Click me to download our game](https://ctueduph-my.sharepoint.com/personal/andrietimothy_cabuguas_ctu_edu_ph/_layouts/15/download.aspx?SourceUrl=%2Fpersonal%2Fandrietimothy%5Fcabuguas%5Fctu%5Fedu%5Fph%2FDocuments%2FSNL%20%26%20TTT%20GAME%20%28Compressed%20ZIP%29%2Ezip)😉😇
+Try and have fun playing our game you can click this [Click me to download our game](https://ctueduph-my.sharepoint.com/personal/andrietimothy_cabuguas_ctu_edu_ph/_layouts/15/download.aspx?SourceUrl=%2Fpersonal%2Fandrietimothy%5Fcabuguas%5Fctu%5Fedu%5Fph%2FDocuments%2FSNL%20%26%20TTT%20GAME%20%28Compressed%20Zip%29%2Ezip)😉😇
 
 After downloading the ZIP file, please extract all the files and put it inside a folder. Click the .exe file to start playing the game!
