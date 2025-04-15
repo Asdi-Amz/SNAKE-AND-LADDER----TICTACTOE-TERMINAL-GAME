@@ -1206,6 +1206,7 @@ void snake_and_ladder_game() {
           player_press = _getch();
 
           if(player_press == 'x' || player_press == 'X'){
+            clear_screen();
             return;
           }
   
