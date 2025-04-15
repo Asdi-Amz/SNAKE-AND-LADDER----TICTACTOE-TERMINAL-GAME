@@ -1200,11 +1200,9 @@ void snake_and_ladder_game() {
     for(int i = 0; i < (number_of_players + number_of_ai_players); i++){
       print_snake_and_ladder_board(board_tile[choosen_board_difficulty], choosen_board_difficulty, player_avatars, player_tile_placement, number_of_players + number_of_ai_players);
       if(i < number_of_players){
-        gotoxy(35, 0);
-        cout << "PRESS X TO STOP THE GAME AND GO BACK TO MAIN MENU";
         do{
           cout << "\n\n";
-          cout << player_avatars[i] << " " << player_names[i] << "'s Turn Press [" << player_key_roll[i] << "] to roll the dice...\n";  
+          cout << player_avatars[i] << " " << player_names[i] << "'s Turn Press [" << player_key_roll[i] << "] to roll the dice... or X to exit the current game\n";  
           player_press = _getch();
 
           if(player_press == 'x' || player_press == 'X'){
