@@ -1202,7 +1202,7 @@ void snake_and_ladder_game() {
       if(i < number_of_players){
         do{
           cout << "\n\n";
-          cout << player_avatars[i] << " " << player_names[i] << "'s Turn Press [" << player_key_roll[i] << "] to roll the dice... or X to exit the current game\n";  
+          cout << player_avatars[i] << " " << player_names[i] << "'s Turn Press [" << player_key_roll[i] << "] to roll the dice... or X to exit\n";  
           player_press = _getch();
 
           if(player_press == 'x' || player_press == 'X'){
