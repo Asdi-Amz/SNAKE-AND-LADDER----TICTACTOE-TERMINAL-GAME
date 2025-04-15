@@ -2056,7 +2056,6 @@ cout << "PLAYER TELEPORT(Self-cast):\n"
     
     terminal_pause("Press ENTER to go back to main menu...", enter_key);
     clear_screen();
-    snake_and_ladder_game_menu();
     return;
 }
 void snake_and_ladder_developer_section() {
@@ -2077,7 +2076,6 @@ cout << "- If debugging is the process of removing bugs, then programming must b
 
 terminal_pause("\nPress ENTER to go back to main menu...", enter_key);
 clear_screen();
-snake_and_ladder_game_menu();
 return;
 }
 
