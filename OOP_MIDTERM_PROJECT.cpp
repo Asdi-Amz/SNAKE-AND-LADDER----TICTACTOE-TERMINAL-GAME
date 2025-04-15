@@ -1042,26 +1042,30 @@ void snake_and_ladder_game_menu()
                                       " Developers ⌨️", " Exit ➡️"};
   
   clear_screen();
-  menu_decision = display_options(main_menu_options, "🐍 SNAKE AND LADDER 🪜");
+  do{
+    menu_decision = display_options(main_menu_options, "🐍 SNAKE AND LADDER 🪜");
 
-  switch (menu_decision)
-  {
-  case 0:
-    snake_and_ladder_game();
-    break;
-  case 1:
-    snake_and_ladder_how_to_play();
-    break;
-  case 2:
-    snake_and_ladder_developer_section();
-    break;
-  case 3:
-    clear_screen();
-    displayThankYou();
-    terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...", enter_key);
-    clear_screen();
-    break;
-  }
+    switch (menu_decision)
+    {
+    case 0:
+      snake_and_ladder_game();
+      break;
+    case 1:
+      snake_and_ladder_how_to_play();
+      break;
+    case 2:
+      snake_and_ladder_developer_section();
+      break;
+    case 3:
+      clear_screen();
+      displayThankYou();
+      terminal_pause("\n\tPRESS ENTER TO GO BACK TO GAME SELECTION MENU...", enter_key);
+      clear_screen();
+      break;
+    }
+
+  }while(menu_decision != 3);
+  
 }
 
 void snake_and_ladder_game() {
